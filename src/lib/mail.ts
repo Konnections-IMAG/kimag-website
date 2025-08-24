@@ -31,7 +31,7 @@ export async function sendContactFormEmail({
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="text-align: center; margin-bottom: 30px;">
-          <h1 style="color: #2d6389; margin: 0;">KIMAG</h1>
+          <h1 style="color: #2d6389; margin: 0;">Konnections IMAG</h1>
           <p style="color: #666; margin: 5px 0;">New Contact Form Submission</p>
         </div>
         
@@ -67,7 +67,7 @@ export async function sendContactFormEmail({
         </div>
         
         <div style="border-top: 1px solid #eee; padding-top: 20px; text-align: center; color: #666; font-size: 14px;">
-          <p>This message was sent through the contact form on your KIMAG website.</p>
+          <p>This message was sent through the contact form on your Konnections IMAG website.</p>
           <p>Submitted on: ${new Date().toLocaleString('en-US', { 
             weekday: 'long', 
             year: 'numeric', 
@@ -98,7 +98,7 @@ export async function sendContactConfirmationEmail({
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="text-align: center; margin-bottom: 30px;">
-          <h1 style="color: #2d6389; margin: 0;">KIMAG</h1>
+          <h1 style="color: #2d6389; margin: 0;">Konnections IMAG</h1>
           <p style="color: #666; margin: 5px 0;">Integrated Marketing and Communications Agency</p>
         </div>
         
@@ -151,4 +151,5 @@ export async function sendContactConfirmationEmail({
       </div>
     `
   });
+
 }
