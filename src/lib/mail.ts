@@ -92,9 +92,9 @@ export async function sendContactConfirmationEmail({
   subject: string; 
 }) {
   await transporter.sendMail({
-    from: `KIMAG Team <${process.env.MAIL_USER}>`,
+    from: `Konnections IMAG Team <${process.env.MAIL_USER}>`,
     to: email,
-    subject: `Thank you for contacting KIMAG - We received your message`,
+    subject: `Thank you for contacting Konnections IMAG - We received your message`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="text-align: center; margin-bottom: 30px;">
@@ -110,7 +110,7 @@ export async function sendContactConfirmationEmail({
         <div style="padding: 20px; background: #f9f9f9; border-radius: 10px; margin-bottom: 30px;">
           <h3 style="color: #2d6389; margin-top: 0;">Hi ${name},</h3>
           <p style="color: #333; line-height: 1.6;">
-            Thank you for contacting KIMAG! We've successfully received your message regarding "<strong>${subject}</strong>" and our team will review it shortly.
+            Thank you for contacting Konnections IMAG! We've successfully received your message regarding "<strong>${subject}</strong>" and our team will review it shortly.
           </p>
           <p style="color: #333; line-height: 1.6;">
             We typically respond to all inquiries within 24 hours during business days. If your message is urgent, please don't hesitate to call us directly at <strong>+91 7032939360</strong>.
