@@ -220,8 +220,8 @@ const MainNavbar: React.FC = () => {
       description: "Our achievements and recognition" 
     },
     { 
-      href: "#contact-form", 
-      text: "Message Us", 
+      href: "#contact", 
+      text: "Contacts", 
       description: "Get in touch with us" 
     }
   ];
@@ -385,10 +385,10 @@ const MainNavbar: React.FC = () => {
 
               {/* CTA Button */}
               <Link
-                href="/contact"
+                href="#contact-form"
                 className="bg-gradient-to-r from-[#348992] to-[#2d6389] text-white px-6 py-2.5 rounded-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300"
               >
-                Contact
+                Get in Touch
               </Link>
             </div>
 
