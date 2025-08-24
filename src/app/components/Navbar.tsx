@@ -220,8 +220,8 @@ const MainNavbar: React.FC = () => {
       description: "Our achievements and recognition" 
     },
     { 
-      href: "#contact", 
-      text: "Contact", 
+      href: "#contact-form", 
+      text: "Message Us", 
       description: "Get in touch with us" 
     }
   ];

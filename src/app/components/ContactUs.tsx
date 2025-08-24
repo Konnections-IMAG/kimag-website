@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import { smoothScrollTo } from '../../lib/smoothScroll';
 import { 
   Mail, 
   Phone, 
@@ -55,7 +56,11 @@ const ContactUs: React.FC = () => {
   };
 
   const handleBookAppointment = () => {
-    router.push('/#contact');
+    if (typeof window !== 'undefined' && window.location.pathname === '/') {
+      smoothScrollTo('#contact-form', { duration: 1.5, offset: -80 });
+    } else {
+      router.push('/#contact-form');
+    }
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
@@ -216,11 +221,11 @@ const ContactUs: React.FC = () => {
           variants={itemVariants}
           className="grid md:grid-cols-2 gap-8 mb-16"
         >
-          {/* Modern Contact Form */}
+          {/* Contact Form */}
           <div className="bg-white/70 backdrop-blur-xl p-8 rounded-3xl shadow-xl border border-white/20 flex flex-col justify-between h-full">
             <div className="absolute inset-0 bg-gradient-to-br from-[#348992]/5 via-transparent to-[#d73c77]/5"></div>
             <div className="relative z-10 flex flex-col h-full">
-              <h2 className="text-2xl font-bold text-[#2d6389] mb-6">
+              <h2 id="contact-form" className="text-2xl font-bold text-[#2d6389] mb-6">
                 Send Us a Message
               </h2>
               {formStatus === 'success' && (
