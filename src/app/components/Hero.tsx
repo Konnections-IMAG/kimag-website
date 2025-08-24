@@ -397,7 +397,7 @@ const Hero = () => {
       </p>
       <button
         ref={buttonRef}
-        onClick={() => router.push('/appointment')}
+        onClick={() => router.push('/#contact')}
         style={{
           marginTop: isMobile ? 16 : 20,
           padding: isMobile ? '12px 24px' : '14px 28px',
@@ -436,7 +436,7 @@ const Hero = () => {
           }
         }}
       >
-        <span>{isMobile ? 'Book Consultation' : 'Get the PR that Matters'}</span>
+  <span>{isMobile ? 'Get the PR that Matters' : 'Get the PR that Matters'}</span>
         <span 
           style={{
             marginLeft: '8px',

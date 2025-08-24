@@ -115,7 +115,7 @@ const DigitalMediaPage: React.FC = () => {
             </p>
             
             <div className="flex justify-center mb-8">
-              <Link href="/appointment">
+              <Link href="/contact">
                 <motion.div
                   className="flex items-center gap-2 px-8 py-4 bg-purple-600/90 hover:bg-purple-600 text-white font-semibold rounded-full shadow-lg transition-all duration-300 cursor-pointer"
                   whileHover={{ scale: 1.05 }}

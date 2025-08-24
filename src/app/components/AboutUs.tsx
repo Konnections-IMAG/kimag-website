@@ -209,14 +209,18 @@ const AboutUs: React.FC = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            {/* Direct SVG illustration, no background or extra container */}
-            <img 
-              src="/illustration.svg"
-              alt="Konnections IMAG Illustration"
-              className="w-full h-full object-contain mt-12"
-              loading="lazy"
-              draggable={false}
-            />
+            {/* Optimized image for better LCP */}
+            <div className="relative w-full h-auto mt-12">
+              <Image
+                src="/illustration.svg"
+                alt="Konnections IMAG Illustration"
+                width={800}
+                height={600}
+                className="w-full h-auto object-contain"
+                priority={false}
+                draggable={false}
+              />
+            </div>
             <motion.div 
               className="absolute -top-4 -right-4 w-8 h-8 bg-[#348992]/20 rounded-full"
               animate={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }}

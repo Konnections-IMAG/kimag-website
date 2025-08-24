@@ -16,8 +16,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  // Ensure absolute URLs for social images/canonicals
+  metadataBase: new URL('https://www.konnectionsimag.com'),
   title: {
-    default: "Konnections IMAG - Strategic Communications & Public Relations Agency",
+    default: "Konnections IMAG",
     template: "%s | Konnections IMAG"
   },
   description: "Leading strategic communications and public relations agency in India. Specializing in crisis management, corporate communications, digital media, and specialized PR services. Build meaningful connections with your audience.",
@@ -103,7 +105,7 @@ export default function RootLayout({
               "contactPoint": {
                 "@type": "ContactPoint",
                 "contactType": "customer service",
-                "url": "https://www.konnectionsimag.com/appointment"
+                "url": "https://www.konnectionsimag.com/#contact"
               },
               "sameAs": [
                 "https://www.linkedin.com/company/konnections-imag",

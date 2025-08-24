@@ -55,7 +55,7 @@ const ContactUs: React.FC = () => {
   };
 
   const handleBookAppointment = () => {
-    router.push('/appointment');
+    router.push('/#contact');
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
@@ -468,7 +468,7 @@ const ContactUs: React.FC = () => {
             >
               <div className="absolute inset-0 bg-gradient-to-r from-[#2d6389] to-[#d73c77] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <Calendar className="w-5 h-5 mr-3 relative z-10" />
-              <span className="relative z-10">Book Your Appointment</span>
+              <span className="relative z-10">Get in Touch</span>
               <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform duration-300 relative z-10" />
             </motion.button>
           </div>
