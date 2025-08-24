@@ -549,11 +549,11 @@ const MainNavbar: React.FC = () => {
 
                   {/* CTA Button */}
                   <Link
-                    href="/contact"
+                    href="#contact-form"
                     className="block w-full bg-gradient-to-r from-[#348992] to-[#2d6389] text-white text-center py-4 px-6 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
                     onClick={toggleDrawer}
                   >
-                    Contact
+                    Get in Touch
                   </Link>
                 </div>
               </div>
