@@ -402,7 +402,7 @@ const MainNavbar: React.FC = () => {
 
               {/* CTA Button */}
               <Link
-                href="#contact-form"
+                href="/#contact-form" scroll={false}
                 className="bg-gradient-to-r from-[#348992] to-[#2d6389] text-white px-6 py-2.5 rounded-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300"
               >
                 Get in Touch
@@ -586,7 +586,7 @@ const MainNavbar: React.FC = () => {
 
                   {/* CTA Button */}
                   <Link
-                    href="#contact-form"
+                    href="/#contact-form" scroll={false}
                     className="block w-full bg-gradient-to-r from-[#348992] to-[#2d6389] text-white text-center py-4 px-6 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
                     onClick={toggleDrawer}
                   >

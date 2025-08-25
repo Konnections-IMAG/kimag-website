@@ -22,10 +22,20 @@ export default function Home() {
       if (element) {
         // Add a delay to ensure Lenis is initialized and page is rendered
         setTimeout(() => {
-          scrollToElement(element, {
+          // Measure header height to compute accurate offset
+          const nav = document.querySelector('nav');
+          const measuredOffset = nav ? -(nav.getBoundingClientRect().height + 16) : (window.innerWidth < 1024 ? -72 : -96);
+          const opts = {
             duration: 1.5,
             easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          });
+            offset: measuredOffset,
+          } as const;
+          scrollToElement(element, opts);
+
+          // Re-apply once after images/fonts settle to avoid layout shift issues (mobile)
+          setTimeout(() => {
+            scrollToElement(element, opts);
+          }, 700);
         }, 500);
       }
     }

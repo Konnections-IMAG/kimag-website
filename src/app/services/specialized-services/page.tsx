@@ -205,7 +205,7 @@ const SpecializedServicesPage: React.FC = () => {
           </motion.p>
           
           <Link 
-            href="/#contact-form" 
+            href="/#contact-form" scroll={false} 
             className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-orange-600 hover:bg-orange-500 transition-colors duration-300 rounded-full text-white font-semibold shadow-md hover:shadow-lg"
           >
             <Target className="w-5 h-5" />
