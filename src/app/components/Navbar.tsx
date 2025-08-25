@@ -463,10 +463,10 @@ const MainNavbar: React.FC = () => {
               <div className="flex justify-between items-center p-6 border-b border-gray-200 flex-shrink-0">
                 <div className="flex items-center">
                   <Image
-                    src="/logo-small.png"
+                    src="/logo-big.png"
                     alt="Konnections IMAG Logo"
-                    width={100}
-                    height={33}
+                    width={220}
+                    height={73}
                   />
                 </div>
                 <ModernHamburger isOpen={isDrawerOpen} onClick={toggleDrawer} />
