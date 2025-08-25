@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { smoothScrollTo } from '../../lib/smoothScroll';
 import { 
@@ -396,51 +396,62 @@ const ContactUs: React.FC = () => {
             
           <div className="max-w-3xl mx-auto space-y-4 px-2 sm:px-0">
             {faqs.map((faq, index) => (
-              <div
+              <motion.div
+                layout
                 key={index}
-                className={`border-2 rounded-2xl overflow-hidden shadow-lg transition-all duration-300 ${activeFaq === index ? 'border-[#348992] bg-gradient-to-br from-[#e0f7fa]/60 to-[#fce4ec]/60' : 'border-gray-200 bg-white/80'}`}
-                data-gsap-faq={activeFaq === index}
+                className={`border-2 rounded-2xl overflow-hidden shadow-lg transition-colors duration-300 ${activeFaq === index ? 'border-[#348992] bg-gradient-to-br from-[#e0f7fa]/60 to-[#fce4ec]/60' : 'border-gray-200 bg-white/80'}`}
+                style={{ overflowAnchor: 'none' }}
               >
                 <button
+                  type="button"
                   onClick={() => toggleFaq(index)}
                   className={`w-full flex items-center justify-between px-4 sm:px-6 py-4 text-left font-semibold text-base sm:text-lg focus:outline-none transition-colors duration-300 ${activeFaq === index ? 'text-[#348992]' : 'text-[#2d6389]'}`}
                   style={{ minHeight: 56 }}
+                  aria-expanded={activeFaq === index}
+                  aria-controls={`faq-answer-${index}`}
+                  id={`faq-button-${index}`}
                 >
                   <span className="flex items-center gap-2">
                     <MessageCircle className={`w-5 h-5 ${activeFaq === index ? 'text-[#348992]' : 'text-[#d73c77]'}`} />
                     {faq.question}
                   </span>
-                  <ChevronDown 
-                    className={`w-6 h-6 transition-transform duration-300 ${activeFaq === index ? 'rotate-180 text-[#348992]' : 'text-[#d73c77]'}`} 
-                  />
+                  <motion.span
+                    aria-hidden
+                    animate={{ rotate: activeFaq === index ? 180 : 0 }}
+                    transition={{ duration: 0.25, ease: 'easeOut' }}
+                    className="flex"
+                  >
+                    <ChevronDown className={`w-6 h-6 ${activeFaq === index ? 'text-[#348992]' : 'text-[#d73c77]'}`} />
+                  </motion.span>
                 </button>
-                <div
-                  className={`px-4 sm:px-6 pb-6 transition-all duration-500 ease-in-out faq-answer ${activeFaq === index ? 'block' : 'hidden'}`}
-                  style={{
-                    maxHeight: activeFaq === index ? 500 : 0,
-                    opacity: activeFaq === index ? 1 : 0,
-                    transform: activeFaq === index ? 'translateY(0)' : 'translateY(10px)',
-                    transition: 'all 0.5s cubic-bezier(0.4,0,0.2,1)'
-                  }}
-                  id={`faq-answer-${index}`}
-                >
-                  <p className="text-gray-700 text-base leading-relaxed">{faq.answer}</p>
-                </div>
-              </div>
+                <AnimatePresence initial={false}>
+                  {activeFaq === index && (
+                    <motion.div
+                      key="content"
+                      id={`faq-answer-${index}`}
+                      role="region"
+                      aria-labelledby={`faq-button-${index}`}
+                      initial="collapsed"
+                      animate="open"
+                      exit="collapsed"
+                      variants={{
+                        open: { height: 'auto', opacity: 1 },
+                        collapsed: { height: 0, opacity: 0 }
+                      }}
+                      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                      className="px-4 sm:px-6 overflow-hidden"
+                      style={{ overflowAnchor: 'none', willChange: 'height, opacity' }}
+                    >
+                      <div className="pb-6">
+                        <p className="text-gray-700 text-base leading-relaxed">{faq.answer}</p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             ))}
           </div>
-          {/* GSAP Animation for FAQ */}
-          <script suppressHydrationWarning>{`
-            if (typeof window !== 'undefined' && window.gsap && document.querySelectorAll) {
-              const gsap = window.gsap;
-              document.querySelectorAll('[data-gsap-faq] .faq-answer').forEach(el => {
-                gsap.set(el, { opacity: 0, y: 10 });
-              });
-              document.querySelectorAll('[data-gsap-faq="true"] .faq-answer').forEach(el => {
-                gsap.to(el, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
-              });
-            }
-          `}</script>
+          
           </div>
         </motion.div>
 
