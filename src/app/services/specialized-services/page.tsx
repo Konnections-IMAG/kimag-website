@@ -61,7 +61,7 @@ const SpecializedServicesPage: React.FC = () => {
       description: "In-depth communication audits and strategic planning to optimize organizational communication effectiveness",
       icon: <Eye className="w-6 h-6" />,
       features: ["Communication Assessment", "Strategic Planning", "Gap Analysis", "Optimization Strategies"],
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+      image: "/hero/spl.jpg"
     }
   ];
 

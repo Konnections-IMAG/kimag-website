@@ -99,15 +99,12 @@ const DraggableCarousel: React.FC<DraggableCarouselProps> = ({
         dragMomentum={false}
         whileDrag={{ cursor: "grabbing" }}
         animate={controls}
-        style={{ x }}
+        style={{ x, touchAction: 'pan-y' }}
         onDragStart={() => {
           setIsDragging(true);
           controls.stop();
         }}
         onDragEnd={handleDragEnd}
-        onPointerDown={(e) => {
-          e.preventDefault();
-        }}
       >
         {/* Triple set of services for smooth infinite scroll */}
         {duplicateServices.map((service, index) => (
@@ -171,8 +168,8 @@ const DraggableCarousel: React.FC<DraggableCarouselProps> = ({
           </motion.div>
         ))}
       </motion.div>
-      <div className="absolute left-0 top-0 bottom-0 w-8 md:w-16 lg:w-20 bg-gradient-to-r from-white to-transparent pointer-events-none z-10"></div>
-      <div className="absolute right-0 top-0 bottom-0 w-8 md:w-16 lg:w-20 bg-gradient-to-l from-white to-transparent pointer-events-none z-10"></div>
+  <div className="hidden md:block absolute left-0 top-0 bottom-0 w-8 md:w-16 lg:w-20 bg-gradient-to-r from-white to-transparent pointer-events-none z-10"></div>
+  <div className="hidden md:block absolute right-0 top-0 bottom-0 w-8 md:w-16 lg:w-20 bg-gradient-to-l from-white to-transparent pointer-events-none z-10"></div>
 
     </motion.div>
   );
