@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useMotionValue, useAnimation } from 'framer-motion';
-import { ArrowRight, CheckCircle } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 
 interface Service {
   title: string;
@@ -166,14 +166,11 @@ const DraggableCarousel: React.FC<DraggableCarouselProps> = ({
                     </div>
                   ))}
                 </div>
-                {/* Removed CTA footer per request */}
               </div>
             </div>
           </motion.div>
         ))}
       </motion.div>
-      
-      {/* Gradient overlays for fade effect */}
       <div className="absolute left-0 top-0 bottom-0 w-8 md:w-16 lg:w-20 bg-gradient-to-r from-white to-transparent pointer-events-none z-10"></div>
       <div className="absolute right-0 top-0 bottom-0 w-8 md:w-16 lg:w-20 bg-gradient-to-l from-white to-transparent pointer-events-none z-10"></div>
 

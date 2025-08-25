@@ -98,7 +98,7 @@ const Hero = () => {
       flexDirection: isMobile ? 'column' : 'row',
       alignItems: 'center',
       justifyContent: isMobile ? 'center' : 'space-between',
-      padding: isMobile ? '60px 16px 60px 16px' : '0 4vw',
+      padding: isMobile ? '96px 16px 60px 16px' : '0 4vw',
       boxSizing: 'border-box',
       gap: isMobile ? 60 : 0,
       width: '100%',
@@ -111,17 +111,17 @@ const Hero = () => {
   >
     {/* Decorative Triangles in Blank Space */}
     <div style={{position:'absolute',left:isMobile?'10%':'7%',top:isMobile?'32%':'28%',zIndex:2,pointerEvents:'none'}}>
-      <svg width="38" height="34" viewBox="0 0 38 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width={isMobile ? 28 : 38} height={isMobile ? 26 : 34} viewBox="0 0 38 34" fill="none" xmlns="http://www.w3.org/2000/svg">
         <polygon points="19,0 38,34 0,34" fill="#348992" fillOpacity="0.13" />
       </svg>
     </div>
     <div style={{position:'absolute',left:isMobile?'18%':'13%',top:isMobile?'44%':'38%',zIndex:2,pointerEvents:'none'}}>
-      <svg width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width={isMobile ? 18 : 24} height={isMobile ? 16 : 22} viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
         <polygon points="12,0 24,22 0,22" fill="#d73c77" fillOpacity="0.11" />
       </svg>
     </div>
     <div style={{position:'absolute',left:isMobile?'7%':'4%',top:isMobile?'60%':'54%',zIndex:2,pointerEvents:'none'}}>
-      <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width={isMobile ? 14 : 18} height={isMobile ? 12 : 16} viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
         <polygon points="9,0 18,16 0,16" fill="#2d6389" fillOpacity="0.10" />
       </svg>
     </div>
@@ -175,7 +175,7 @@ const Hero = () => {
         }}
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
       >
-        <div className="w-0 h-0 border-l-[20px] border-r-[20px] border-b-[35px] border-l-transparent border-r-transparent border-b-[#2d6389]/20 filter drop-shadow-lg"></div>
+  <div className={isMobile ? "w-0 h-0 border-l-[12px] border-r-[12px] border-b-[22px] border-l-transparent border-r-transparent border-b-[#2d6389]/20 filter drop-shadow-lg" : "w-0 h-0 border-l-[20px] border-r-[20px] border-b-[35px] border-l-transparent border-r-transparent border-b-[#2d6389]/20 filter drop-shadow-lg"}></div>
       </motion.div>
 
       <motion.div 
@@ -187,7 +187,7 @@ const Hero = () => {
         }}
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
       >
-        <div className="w-0 h-0 border-l-[16px] border-r-[16px] border-b-[28px] border-l-transparent border-r-transparent border-b-[#d73c77]/20 filter drop-shadow-lg"></div>
+  <div className={isMobile ? "w-0 h-0 border-l-[10px] border-r-[10px] border-b-[18px] border-l-transparent border-r-transparent border-b-[#d73c77]/20 filter drop-shadow-lg" : "w-0 h-0 border-l-[16px] border-r-[16px] border-b-[28px] border-l-transparent border-r-transparent border-b-[#d73c77]/20 filter drop-shadow-lg"}></div>
       </motion.div>
 
       <motion.div 
@@ -199,7 +199,7 @@ const Hero = () => {
         }}
         transition={{ duration: 13, repeat: Infinity, ease: "easeInOut", delay: 1 }}
       >
-        <div className="w-0 h-0 border-l-[12px] border-r-[12px] border-b-[20px] border-l-transparent border-r-transparent border-b-[#348992]/20 filter drop-shadow-lg"></div>
+  <div className={isMobile ? "w-0 h-0 border-l-[8px] border-r-[8px] border-b-[14px] border-l-transparent border-r-transparent border-b-[#348992]/20 filter drop-shadow-lg" : "w-0 h-0 border-l-[12px] border-r-[12px] border-b-[20px] border-l-transparent border-r-transparent border-b-[#348992]/20 filter drop-shadow-lg"}></div>
       </motion.div>
 
       <motion.div 
@@ -211,7 +211,7 @@ const Hero = () => {
         }}
         transition={{ duration: 17, repeat: Infinity, ease: "easeInOut", delay: 3 }}
       >
-        <div className="w-0 h-0 border-l-[18px] border-r-[18px] border-b-[30px] border-l-transparent border-r-transparent border-b-[#2d6389]/15 filter drop-shadow-lg"></div>
+  <div className={isMobile ? "w-0 h-0 border-l-[10px] border-r-[10px] border-b-[18px] border-l-transparent border-r-transparent border-b-[#2d6389]/15 filter drop-shadow-lg" : "w-0 h-0 border-l-[18px] border-r-[18px] border-b-[30px] border-l-transparent border-r-transparent border-b-[#2d6389]/15 filter drop-shadow-lg"}></div>
       </motion.div>
 
       <motion.div 
@@ -223,7 +223,7 @@ const Hero = () => {
         }}
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
       >
-        <div className="w-6 h-6 bg-gradient-to-br from-[#d73c77]/30 to-[#348992]/30 rotate-45 rounded-sm filter drop-shadow-lg"></div>
+  <div className={isMobile ? "w-4 h-4 bg-gradient-to-br from-[#d73c77]/30 to-[#348992]/30 rotate-45 rounded-sm filter drop-shadow-lg" : "w-6 h-6 bg-gradient-to-br from-[#d73c77]/30 to-[#348992]/30 rotate-45 rounded-sm filter drop-shadow-lg"}></div>
       </motion.div>
 
       <motion.div 
@@ -235,7 +235,7 @@ const Hero = () => {
         }}
         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
       >
-        <div className="w-8 h-8 bg-gradient-to-tr from-[#348992]/25 to-[#2d6389]/25 rounded-full filter drop-shadow-lg"></div>
+  <div className={isMobile ? "w-6 h-6 bg-gradient-to-tr from-[#348992]/25 to-[#2d6389]/25 rounded-full filter drop-shadow-lg" : "w-8 h-8 bg-gradient-to-tr from-[#348992]/25 to-[#2d6389]/25 rounded-full filter drop-shadow-lg"}></div>
       </motion.div>
 
       <motion.div 
@@ -247,7 +247,7 @@ const Hero = () => {
         }}
         transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
       >
-        <div className="w-0 h-0 border-l-[15px] border-r-[15px] border-b-[25px] border-l-transparent border-r-transparent border-b-[#d73c77]/20 filter drop-shadow-lg"></div>
+  <div className={isMobile ? "w-0 h-0 border-l-[9px] border-r-[9px] border-b-[16px] border-l-transparent border-r-transparent border-b-[#d73c77]/20 filter drop-shadow-lg" : "w-0 h-0 border-l-[15px] border-r-[15px] border-b-[25px] border-l-transparent border-r-transparent border-b-[#d73c77]/20 filter drop-shadow-lg"}></div>
       </motion.div>
 
       <motion.div 
@@ -258,7 +258,7 @@ const Hero = () => {
         }}
         transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
       >
-        <div className="w-4 h-4 bg-gradient-to-bl from-[#2d6389]/30 to-[#d73c77]/30 rotate-45 filter drop-shadow-lg"></div>
+  <div className={isMobile ? "w-3 h-3 bg-gradient-to-bl from-[#2d6389]/30 to-[#d73c77]/30 rotate-45 filter drop-shadow-lg" : "w-4 h-4 bg-gradient-to-bl from-[#2d6389]/30 to-[#d73c77]/30 rotate-45 filter drop-shadow-lg"}></div>
       </motion.div>
 
       <motion.div 
@@ -269,7 +269,7 @@ const Hero = () => {
         }}
         transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
       >
-        <div className="w-5 h-5 bg-gradient-to-tl from-[#348992]/25 to-[#2d6389]/25 rounded-sm filter drop-shadow-lg"></div>
+  <div className={isMobile ? "w-4 h-4 bg-gradient-to-tl from-[#348992]/25 to-[#2d6389]/25 rounded-sm filter drop-shadow-lg" : "w-5 h-5 bg-gradient-to-tl from-[#348992]/25 to-[#2d6389]/25 rounded-sm filter drop-shadow-lg"}></div>
       </motion.div>
     </div>
     <svg
