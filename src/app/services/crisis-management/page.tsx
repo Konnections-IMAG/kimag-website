@@ -26,7 +26,7 @@ const CrisisManagementPage: React.FC = () => {
       description: "Develop comprehensive crisis communication strategies and protocols before issues arise to ensure rapid, effective response",
       icon: <Target className="w-6 h-6" />,
       features: ["Crisis Response Protocols", "Communication Templates", "Stakeholder Mapping", "Risk Assessment"],
-      image: "https://images.unsplash.com/photo-1566325593923-e4b76a8c5d44?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+      image: "/hero/crisis.png"
     },
     {
       title: "24/7 Crisis Response",
@@ -47,7 +47,7 @@ const CrisisManagementPage: React.FC = () => {
       description: "Comprehensive media training to prepare executives and spokespersons for crisis communications",
       icon: <Users className="w-6 h-6" />,
       features: ["Executive Media Training", "Spokesperson Coaching", "Crisis Simulations", "Message Development"],
-      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+      image: "/hero/spl.jpg"
     },
     {
       title: "Stakeholder Communication Management",

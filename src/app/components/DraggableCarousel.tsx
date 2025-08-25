@@ -27,6 +27,9 @@ const DraggableCarousel: React.FC<DraggableCarouselProps> = ({
   const [isHovering, setIsHovering] = useState(false);
   const x = useMotionValue(0);
   const controls = useAnimation();
+  const initializedRef = useRef(false);
+  const draggingRef = useRef(false);
+  const hoveringRef = useRef(false);
   
   // Calculate appropriate dimensions for infinite scroll
   const cardWidth = 340; // 320px width + 20px gap
@@ -36,31 +39,59 @@ const DraggableCarousel: React.FC<DraggableCarouselProps> = ({
   // Optimized drag constraints for infinite scroll
   const dragConstraints = { left: -singleSetWidth * 1.5, right: cardWidth };
 
-  // Enhanced auto-scroll with infinite loop
+  // Enhanced auto-scroll with infinite loop that preserves position after drag
   useEffect(() => {
+    draggingRef.current = isDragging;
+    hoveringRef.current = isHovering;
+
     if (!isDragging && !isHovering) {
+      let canceled = false;
+
       const startInfiniteScroll = async () => {
-        // Start from the middle set to allow backward dragging
-        x.set(-singleSetWidth);
-        
-        const scrollSpeed = 30; // pixels per second - much faster
-        const duration = singleSetWidth / scrollSpeed;
-        
-        while (!isDragging && !isHovering) {
+        const scrollSpeed = 30; // pixels per second - faster
+
+        // On first run, start from the middle set to allow backward dragging.
+        // On subsequent runs, normalize current position into the middle band [-2W, -W]
+        const width = singleSetWidth;
+        const rangeStart = -2 * width;
+        const rangeEnd = -1 * width;
+
+        if (!initializedRef.current) {
+          x.set(rangeEnd);
+          initializedRef.current = true;
+        } else {
+          let current = x.get();
+          while (current > rangeEnd) current -= width;
+          while (current < rangeStart) current += width;
+          x.set(current);
+        }
+
+        while (!canceled && !draggingRef.current && !hoveringRef.current) {
+          const current = x.get();
+          const distance = Math.abs(rangeStart - current);
+          const duration = distance / scrollSpeed;
+
           await controls.start({
-            x: -singleSetWidth * 2,
+            x: rangeStart,
             transition: {
-              duration: duration,
-              ease: "linear"
-            }
+              duration,
+              ease: "linear",
+            },
           });
-          
-          // Reset position instantly for seamless loop
-          x.set(-singleSetWidth);
+
+          if (canceled || draggingRef.current || hoveringRef.current) break;
+
+          // Jump forward one set to keep seamless loop and preserve relative offset
+          x.set(x.get() + width);
         }
       };
-      
+
       startInfiniteScroll();
+
+      return () => {
+        canceled = true;
+        controls.stop();
+      };
     } else {
       controls.stop();
     }
@@ -69,14 +100,16 @@ const DraggableCarousel: React.FC<DraggableCarouselProps> = ({
   // Handle drag end to maintain infinite scroll position
   const handleDragEnd = () => {
     setIsDragging(false);
-    const currentX = x.get();
-    
-    // Reset position if user dragged too far in either direction
-    if (currentX > 0) {
-      x.set(-singleSetWidth + currentX);
-    } else if (currentX < -singleSetWidth * 2) {
-      x.set(-singleSetWidth + (currentX + singleSetWidth * 2));
-    }
+    draggingRef.current = false;
+
+    // Normalize position into the middle band [-2W, -W] to avoid jumps
+    const width = singleSetWidth;
+    const rangeStart = -2 * width;
+    const rangeEnd = -1 * width;
+    let current = x.get();
+    while (current > rangeEnd) current -= width;
+    while (current < rangeStart) current += width;
+    x.set(current);
   };
 
   return (
@@ -87,8 +120,8 @@ const DraggableCarousel: React.FC<DraggableCarouselProps> = ({
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
       viewport={{ once: true }}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
+  onMouseEnter={() => { setIsHovering(true); hoveringRef.current = true; }}
+  onMouseLeave={() => { setIsHovering(false); hoveringRef.current = false; }}
     >
       {/* Draggable carousel container */}
       <motion.div 
@@ -102,6 +135,7 @@ const DraggableCarousel: React.FC<DraggableCarouselProps> = ({
         style={{ x, touchAction: 'pan-y' }}
         onDragStart={() => {
           setIsDragging(true);
+          draggingRef.current = true;
           controls.stop();
         }}
         onDragEnd={handleDragEnd}
