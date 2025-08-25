@@ -35,34 +35,36 @@ const ModernHamburger: React.FC<{
   onClick: () => void;
 }> = ({ isOpen, onClick }) => {
   return (
-    <button 
-      onClick={onClick} 
-      className="p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200 group" 
-      aria-label="Toggle Menu"
+    <button
+      onClick={onClick}
+      className="p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200 group"
+      aria-label={isOpen ? "Close Menu" : "Open Menu"}
     >
-      <div className="flex flex-col items-center justify-center w-6 h-6 space-y-1">
-        <motion.div
-          className="w-6 h-0.5 bg-gray-700 rounded-full"
+      {/* Absolute, centered bars to avoid spacing shifts when turning into an X */}
+      <div className="relative w-6 h-6">
+        <motion.span
+          className="absolute left-0 right-0 mx-auto top-1/2 -translate-y-1/2 block w-6 h-0.5 bg-gray-700 rounded-full origin-center"
           animate={{
             rotate: isOpen ? 45 : 0,
-            y: isOpen ? 8 : 0,
+            y: isOpen ? 0 : -6,
           }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.25, ease: "easeInOut" }}
         />
-        <motion.div
-          className="w-6 h-0.5 bg-gray-700 rounded-full"
+        <motion.span
+          className="absolute left-0 right-0 mx-auto top-1/2 -translate-y-1/2 block w-6 h-0.5 bg-gray-700 rounded-full origin-center"
           animate={{
             opacity: isOpen ? 0 : 1,
+            scaleX: isOpen ? 0.5 : 1,
           }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.2, ease: "easeInOut" }}
         />
-        <motion.div
-          className="w-6 h-0.5 bg-gray-700 rounded-full"
+        <motion.span
+          className="absolute left-0 right-0 mx-auto top-1/2 -translate-y-1/2 block w-6 h-0.5 bg-gray-700 rounded-full origin-center"
           animate={{
             rotate: isOpen ? -45 : 0,
-            y: isOpen ? -8 : 0,
+            y: isOpen ? 0 : 6,
           }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.25, ease: "easeInOut" }}
         />
       </div>
     </button>
@@ -303,8 +305,21 @@ const MainNavbar: React.FC = () => {
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-8">
-              
-              {/* Services Dropdown */}
+              {/* About first */}
+              {navigationLinks
+                .filter((link) => link.href === "#about")
+                .map((link, index) => (
+                  <button
+                    key={`about-desktop-${index}`}
+                    onClick={() => handleNavClick(link.href)}
+                    className="text-gray-700 hover:text-[#348992] font-medium transition-colors duration-200 relative group"
+                  >
+                    {link.text}
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#348992] transition-all duration-300 group-hover:w-full"></span>
+                  </button>
+                ))}
+
+              {/* Services Dropdown (now after About) */}
               <div 
                 className="relative group"
                 onMouseEnter={() => setIsServicesOpen(true)}
@@ -371,17 +386,19 @@ const MainNavbar: React.FC = () => {
                 </AnimatePresence>
               </div>
 
-              {/* Regular Navigation Links */}
-              {navigationLinks.map((link, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleNavClick(link.href)}
-                  className="text-gray-700 hover:text-[#348992] font-medium transition-colors duration-200 relative group"
-                >
-                  {link.text}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#348992] transition-all duration-300 group-hover:w-full"></span>
-                </button>
-              ))}
+              {/* Remaining links after About */}
+              {navigationLinks
+                .filter((link) => link.href !== "#about")
+                .map((link, index) => (
+                  <button
+                    key={`rest-desktop-${index}`}
+                    onClick={() => handleNavClick(link.href)}
+                    className="text-gray-700 hover:text-[#348992] font-medium transition-colors duration-200 relative group"
+                  >
+                    {link.text}
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#348992] transition-all duration-300 group-hover:w-full"></span>
+                  </button>
+                ))}
 
               {/* CTA Button */}
               <Link
@@ -457,94 +474,114 @@ const MainNavbar: React.FC = () => {
 
               {/* Navigation - Scrollable */}
               <div className="flex-1 overflow-y-auto">
-                <div className="p-6 space-y-6">
-                  {/* Services Section - Collapsible */}
-                  <div>
-                    <button
-                      onClick={() => {
-                        // If services dropdown is closed, first try to navigate to services section
-                        if (!isMobileServicesOpen) {
-                          handleNavClick("#ourservies");
-                        } else {
-                          // If already open, just toggle the dropdown
-                          toggleMobileServices();
-                        }
-                      }}
-                      className="flex items-center justify-between w-full text-left mb-3"
-                    >
-                      <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
-                        Services
-                      </h3>
-                      <motion.svg
-                        className="w-4 h-4 text-gray-500"
-                        animate={{ rotate: isMobileServicesOpen ? 180 : 0 }}
-                        transition={{ duration: 0.2 }}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        onClick={(e) => {
-                          e.stopPropagation(); // Prevent the main button click
-                          toggleMobileServices();
-                        }}
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </motion.svg>
-                    </button>
-                    
-                    <AnimatePresence>
-                      {isMobileServicesOpen && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="overflow-hidden"
-                        >
-                          <div className="grid grid-cols-2 gap-2 p-2">
-                            {servicesDropdown.map((service, index) => (
-                              <Link
-                                key={index}
-                                href={service.href}
-                                className="flex items-start space-x-2 p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200 group"
-                                onClick={toggleDrawer}
-                              >
-                                <span className="text-base group-hover:scale-110 transition-transform duration-200 flex-shrink-0">
-                                  {service.icon}
-                                </span>
-                                <div className="min-w-0">
-                                  <div className="font-medium text-gray-900 group-hover:text-[#348992] transition-colors duration-200 text-sm">
-                                    {service.text}
-                                  </div>
-                                  <div className="text-xs text-gray-600 line-clamp-2">
-                                    {service.description}
-                                  </div>
-                                </div>
-                              </Link>
-                            ))}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-
-                  {/* Main Navigation */}
+                <div className="p-6">
+                  {/* Main Navigation (including Services) */}
                   <div className="space-y-1">
-                    {navigationLinks.map((link, index) => (
+                    {/* Services Row */}
+                    <div className="space-y-1">
                       <button
-                        key={index}
-                        onClick={() => handleNavClick(link.href)}
-                        className="block w-full text-left p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200 group"
+                        onClick={() => handleNavClick("#ourservies")}
+                        className="block w-full text-left p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200 group flex items-center justify-between"
                       >
-                        <div className="font-medium text-gray-900 group-hover:text-[#348992] transition-colors duration-200">
-                          {link.text}
-                        </div>
-                        {link.description && (
-                          <div className="text-xs text-gray-600 mt-1">
-                            {link.description}
+                        <div className="min-w-0">
+                          <div className="font-medium text-gray-900 group-hover:text-[#348992] transition-colors duration-200">
+                            Services
                           </div>
-                        )}
+                          <div className="text-xs text-gray-600 mt-1">What we offer</div>
+                        </div>
+                        <motion.svg
+                          className="w-4 h-4 text-gray-500 ml-3 flex-shrink-0"
+                          animate={{ rotate: isMobileServicesOpen ? 180 : 0 }}
+                          transition={{ duration: 0.2 }}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          onClick={(e) => {
+                            e.stopPropagation(); // Only toggle, don't navigate
+                            toggleMobileServices();
+                          }}
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </motion.svg>
                       </button>
-                    ))}
+
+                      <AnimatePresence>
+                        {isMobileServicesOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="overflow-hidden"
+                          >
+                            <div className="grid grid-cols-2 gap-2 p-2">
+                              {servicesDropdown.map((service, index) => (
+                                <Link
+                                  key={index}
+                                  href={service.href}
+                                  className="flex items-start space-x-2 p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200 group"
+                                  onClick={toggleDrawer}
+                                >
+                                  <span className="text-base group-hover:scale-110 transition-transform duration-200 flex-shrink-0">
+                                    {service.icon}
+                                  </span>
+                                  <div className="min-w-0">
+                                    <div className="font-medium text-gray-900 group-hover:text-[#348992] transition-colors duration-200 text-sm">
+                                      {service.text}
+                                    </div>
+                                    <div className="text-xs text-gray-600 line-clamp-2">
+                                      {service.description}
+                                    </div>
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+
+                    {/* About first */}
+                    {navigationLinks
+                      .filter((link) => link.href === "#about")
+                      .map((link, index) => (
+                        <button
+                          key={`about-${index}`}
+                          onClick={() => handleNavClick(link.href)}
+                          className="block w-full text-left p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200 group"
+                        >
+                          <div className="font-medium text-gray-900 group-hover:text-[#348992] transition-colors duration-200">
+                            {link.text}
+                          </div>
+                          {link.description && (
+                            <div className="text-xs text-gray-600 mt-1">
+                              {link.description}
+                            </div>
+                          )}
+                        </button>
+                      ))}
+
+                    {/* Then Services (row above) is already rendered */}
+
+                    {/* Remaining links after About */}
+                    {navigationLinks
+                      .filter((link) => link.href !== "#about")
+                      .map((link, index) => (
+                        <button
+                          key={`rest-${index}`}
+                          onClick={() => handleNavClick(link.href)}
+                          className="block w-full text-left p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200 group"
+                        >
+                          <div className="font-medium text-gray-900 group-hover:text-[#348992] transition-colors duration-200">
+                            {link.text}
+                          </div>
+                          {link.description && (
+                            <div className="text-xs text-gray-600 mt-1">
+                              {link.description}
+                            </div>
+                          )}
+                        </button>
+                      ))}
                   </div>
 
                   {/* CTA Button */}

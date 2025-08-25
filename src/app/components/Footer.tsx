@@ -32,7 +32,7 @@ export const Footer = () => {
               A leading communications agency specializing in public relations, crisis management, 
               and strategic communications. We help brands build meaningful connections with their audiences.
             </p>
-            <div className="flex space-x-4 pt-2">
+            <div className="flex flex-wrap gap-4 pt-2">
               <FooterIcon
                 href="https://www.facebook.com/Konnections/"
                 label="Facebook"
@@ -94,27 +94,38 @@ export const Footer = () => {
           <div className="space-y-4">
             <h3 className="text-xl font-semibold text-white mb-4 tracking-tight">Contact Us</h3>
             <div className="space-y-3">
-              <div className="flex items-start space-x-3">
-                <MapPin className="w-5 h-5 text-white/80 mt-0.5 flex-shrink-0" />
-                <p className="text-white/80 text-base">
+              {/* Address */}
+              <div className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-5 pt-0.5 inline-flex">
+                  <MapPin className="w-5 h-5 text-white/80" />
+                </span>
+                <p className="text-white/80 text-base leading-relaxed">
                   Konnections IMAG, <br /> 6-3-596/102F, <br />2nd Floor, Navin Nagar,
-<br /> Banjara Hills, Hyderabad,<br /> Telangana - 500004
+                  <br /> Banjara Hills, Hyderabad,<br /> Telangana - 500004
                 </p>
               </div>
-              <div className="flex items-center space-x-3">
-                <Phone className="w-5 h-5 text-white/80" />
-                <a 
+
+              {/* Phone */}
+              <div className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-5 pt-0.5 inline-flex">
+                  <Phone className="w-5 h-5 text-white/80" />
+                </span>
+                <a
                   href="tel:+917032939360"
                   className="text-white/80 hover:text-white text-base transition-colors duration-300"
                 >
                   +91 7032939360
                 </a>
               </div>
-              <div className="flex items-center space-x-3">
-                <Mail className="w-5 h-5 text-white/80" />
-                <a 
+
+              {/* Email */}
+              <div className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-5 pt-0.5 inline-flex">
+                  <Mail className="w-5 h-5 text-white/80" />
+                </span>
+                <a
                   href="mailto:info@konnections.co.in"
-                  className="text-white/80 hover:text-white text-base transition-colors duration-300"
+                  className="text-white/80 hover:text-white text-base transition-colors duration-300 break-all md:break-normal"
                 >
                   info@konnections.co.in
                 </a>
