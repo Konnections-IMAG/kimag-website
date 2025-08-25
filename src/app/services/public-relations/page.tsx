@@ -23,7 +23,7 @@ const PublicRelationsPage: React.FC = () => {
       description: "Build strong relationships with key media personnel and develop strategic messaging that resonates with your target audience",
       icon: <Megaphone className="w-6 h-6" />,
       features: ["Press Release Distribution", "Media Pitch Development", "Journalist Relationship Building", "Editorial Calendar Planning"],
-      image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+      image: "/hero/corporate.png"
     },
     {
       title: "Brand Building & Positioning", 
@@ -72,7 +72,7 @@ const PublicRelationsPage: React.FC = () => {
         <div 
           className="absolute inset-0 bg-gradient-to-br from-[#2d6389]/30 via-[#348992]/20 to-[#d73c77]/30"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')",
+            backgroundImage: "url('/hero/PR.png')",
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}
@@ -114,7 +114,7 @@ const PublicRelationsPage: React.FC = () => {
             </p>
             
             <div className="flex justify-center mb-8">
-              <Link href="/contact">
+              <Link href="/#contact-form">
                 <motion.div
                   className="flex items-center gap-2 px-8 py-4 bg-blue-600/90 hover:bg-blue-600 text-white font-semibold rounded-full shadow-lg transition-all duration-300 cursor-pointer"
                   whileHover={{ scale: 1.05 }}

@@ -166,17 +166,7 @@ const DraggableCarousel: React.FC<DraggableCarouselProps> = ({
                     </div>
                   ))}
                 </div>
-
-                {/* CTA Footer */}
-                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                  <span className="text-[#348992] font-medium text-sm group-hover:text-[#2d6389] transition-colors duration-300">
-                    Learn more
-                  </span>
-                  
-                  <div className="w-8 h-8 bg-gray-100 group-hover:bg-[#348992] rounded-lg flex items-center justify-center transition-all duration-300">
-                    <ArrowRight className="w-4 h-4 text-gray-600 group-hover:text-white transition-colors duration-300" />
-                  </div>
-                </div>
+                {/* Removed CTA footer per request */}
               </div>
             </div>
           </motion.div>

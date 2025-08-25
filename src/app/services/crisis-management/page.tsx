@@ -116,7 +116,7 @@ const CrisisManagementPage: React.FC = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-              <Link href="/contact">
+              <Link href="/#contact-form">
                 <motion.div
                   className="flex items-center gap-2 px-6 py-3 bg-red-500/90 hover:bg-red-500 text-white font-semibold rounded-full shadow-lg transition-all duration-300 cursor-pointer"
                   whileHover={{ scale: 1.05 }}
@@ -158,7 +158,7 @@ const CrisisManagementPage: React.FC = () => {
                 <p className="text-white/90">Get immediate expert assistance</p>
               </div>
             </div>
-            <Link href="/contact">
+            <Link href="/#contact-form">
               <motion.div
                 className="flex items-center gap-2 px-6 py-3 bg-white text-red-600 font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
                 whileHover={{ scale: 1.05 }}

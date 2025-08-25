@@ -31,7 +31,7 @@ const FinancialCommunicationsPage: React.FC = () => {
       description: "Strategic investor communication programs to build strong relationships with institutional and retail investors",
       icon: <Users className="w-6 h-6" />,
       features: ["Investor Roadshows", "Conference Participation", "One-on-One Meetings", "Investor Database Management"],
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+      image: "/hero/investor.png"
     },
     {
       title: "Analyst & Fund Manager Relations",
@@ -73,7 +73,7 @@ const FinancialCommunicationsPage: React.FC = () => {
         <div 
           className="absolute inset-0 bg-gradient-to-br from-blue-900/30 via-[#2d6389]/20 to-green-600/30"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')",
+            backgroundImage: "url('/hero/finance.png')",
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}
@@ -115,7 +115,7 @@ const FinancialCommunicationsPage: React.FC = () => {
             </p>
             
             <div className="flex justify-center mb-8">
-              <Link href="/contact">
+              <Link href="/#contact-form">
                 <motion.div
                   className="flex items-center gap-2 px-8 py-4 bg-green-600/90 hover:bg-green-600 text-white font-semibold rounded-full shadow-lg transition-all duration-300 cursor-pointer"
                   whileHover={{ scale: 1.05 }}
