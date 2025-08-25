@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import DraggableCarousel from '@/app/components/DraggableCarousel';
 import Navbar from '@/app/components/Navbar';
+import { Footer } from '@/app/components/Footer';
 import { 
   Shield, 
   Clock, 
@@ -264,7 +265,8 @@ const CrisisManagementPage: React.FC = () => {
           </div>
         </div>
       </section>
-    </div>
+  </div>
+  <Footer />
     </>
   );
 };
