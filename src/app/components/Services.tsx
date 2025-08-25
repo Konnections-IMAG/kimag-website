@@ -71,27 +71,26 @@ export const OurServices = ({
 
   // Service images mapping with relevant online images
   const serviceImages = [
-    "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=600&h=400&fit=crop&crop=center", // Public Relations - Meeting/Communication
-    "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop&crop=center", // Crisis Management - Business emergency
-    "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop&crop=center",  // Financial Communications - Finance/charts
-    "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=600&h=400&fit=crop&crop=center", // Digital Media - Social media strategy/content creation
-    "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&h=400&fit=crop&crop=center", // Corporate Communications - Office/business
-    "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop&crop=center"  // Specialized Services - Consulting/strategy
+    "/hero/PR.png", // Public Relations
+    "/hero/crisis.png", // Crisis Management
+    "/hero/finance.png",  // Financial Communications
+    "/hero/digital.png", // Digital Media
+    "/hero/corporate.png", // Corporate Communications
+    "/hero/spl.jpg"  // Specialized Services
   ];
 
   // Convert items to services format for consistency
   const services = items.map((item, index) => ({
     title: item.title,
-    description: item.description[0], // Use first description as main tagline
+    description: item.description[0], 
     image: serviceImages[index % serviceImages.length],
     icon: serviceIcons[index % serviceIcons.length],
     link: item.link,
-    features: item.description.slice(0, 3) // Show only top 3 features
+    features: item.description.slice(0, 3)
   }));
 
   return (
     <section className={cn("py-16 mobile-container bg-gradient-to-br from-slate-50 via-white to-blue-50/30 relative overflow-hidden", className)} id="ourservies">
-      {/* Enhanced Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-20 w-64 h-64 bg-gradient-to-br from-[#348992]/10 to-[#d73c77]/5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-tl from-[#d73c77]/8 to-[#348992]/5 rounded-full blur-3xl"></div>
@@ -105,7 +104,7 @@ export const OurServices = ({
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
       >
-        {/* Enhanced Section Heading */}
+
         <motion.div 
           variants={itemVariants}
           className="text-center mb-16"
@@ -213,7 +212,7 @@ export const OurServices = ({
                 >
                   <Link href={service.link}>
                     <div className="relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 h-full border border-gray-100 group-hover:border-[#348992]/30">
-                      {/* Service Image with Enhanced Overlay */}
+                      {/* Service Image */}
                       <div className="relative h-56 lg:h-64 overflow-hidden">
                         <div 
                           className="absolute inset-0 bg-gradient-to-br from-[#2d6389]/40 via-[#348992]/30 to-[#d73c77]/40 transition-all duration-700 group-hover:scale-105"
