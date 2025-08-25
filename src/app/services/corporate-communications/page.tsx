@@ -34,7 +34,7 @@ const CorporateCommunicationsPage: React.FC = () => {
       description: "Strategic positioning and communication support for C-level executives and senior leadership teams",
       icon: <Briefcase className="w-6 h-6" />,
       features: ["Thought Leadership", "Executive Positioning", "Speaking Engagements", "CEO Communication"],
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+      image: "/hero/corporate.png"
     },
     {
       title: "Corporate Social Responsibility (CSR)",
@@ -76,7 +76,7 @@ const CorporateCommunicationsPage: React.FC = () => {
         <div 
           className="absolute inset-0 bg-gradient-to-br from-blue-900/30 via-[#2d6389]/20 to-green-700/30"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')",
+            backgroundImage: "url('/hero/spl.jpg')",
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}
