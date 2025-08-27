@@ -404,6 +404,13 @@ const MainNavbar: React.FC = () => {
               <Link
                 href="/#contact-form" scroll={false}
                 className="bg-gradient-to-r from-[#348992] to-[#2d6389] text-white px-6 py-2.5 rounded-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300"
+                onClick={(e) => {
+                  // If we're already on the homepage, intercept and smooth scroll
+                  if (pathname === '/') {
+                    e.preventDefault();
+                    handleNavClick('#contact-form');
+                  }
+                }}
               >
                 Get in Touch
               </Link>
@@ -588,7 +595,14 @@ const MainNavbar: React.FC = () => {
                   <Link
                     href="/#contact-form" scroll={false}
                     className="block w-full bg-gradient-to-r from-[#348992] to-[#2d6389] text-white text-center py-4 px-6 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
-                    onClick={toggleDrawer}
+                    onClick={(e) => {
+                      if (pathname === '/') {
+                        e.preventDefault();
+                        handleNavClick('#contact-form'); // will also close the drawer
+                      } else {
+                        // Let the Link handle navigation; drawer will unmount on route change
+                      }
+                    }}
                   >
                     Get in Touch
                   </Link>
