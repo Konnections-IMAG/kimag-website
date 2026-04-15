@@ -142,7 +142,7 @@ export async function sendContactConfirmationEmail({
         
         <div style="border-top: 1px solid #eee; padding-top: 20px; text-align: center; color: #666; font-size: 14px;">
           <p>This is an automated confirmation email. Please do not reply to this email.</p>
-          <p>If you have additional questions, please contact us at <a href="mailto:info@konnections.co.in" style="color: #348992;">info@konnections.co.in</a></p>
+          <p>If you have additional questions, please contact us at <a href="mailto:info@konnectionsimag.com" style="color: #348992;">info@konnectionsimag.com</a></p>
           <p style="margin-top: 20px;">
             Best regards,<br>
             <strong style="color: #2d6389;">The KIMAG Team</strong>

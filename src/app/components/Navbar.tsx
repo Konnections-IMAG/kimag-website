@@ -249,7 +249,7 @@ const MainNavbar: React.FC = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <FaEnvelope size={14} />
-                <span>info@konnections.co.in</span>
+                <span>info@konnectionsimag.com</span>
               </div>
             </div>
             <div className="flex items-center space-x-4">

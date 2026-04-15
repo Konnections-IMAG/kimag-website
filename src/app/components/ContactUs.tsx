@@ -171,7 +171,7 @@ const ContactUs: React.FC = () => {
             {
               icon: <Mail className="w-6 h-6" />,
               title: "Email Us",
-              content: "info@konnections.co.in",
+              content: "info@konnectionsimag.com",
               gradient: "from-[#2d6389] to-[#348992]",
               bgGradient: "from-blue-50 to-indigo-50"
             },
@@ -192,7 +192,7 @@ const ContactUs: React.FC = () => {
             {
               icon: <Clock className="w-6 h-6" />,
               title: "Office Hours",
-              content: "Mon - Fri, 9AM - 6PM",
+              content: "Mon - Fri, 9AM - 6PM\nSaturday, 9AM - 4PM",
               gradient: "from-[#2d6389] to-[#d73c77]",
               bgGradient: "from-amber-50 to-orange-50"
             }

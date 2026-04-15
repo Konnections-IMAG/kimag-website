@@ -49,7 +49,7 @@ export const Footer = () => {
                 icon={<Linkedin className="w-5 h-5" />}
               />
               <FooterIcon
-                href="mailto:info@konnections.co.in"
+                href="mailto:info@konnectionsimag.com"
                 label="Email"
                 icon={<Mail className="w-5 h-5" />}
               />
@@ -124,10 +124,10 @@ export const Footer = () => {
                   <Mail className="w-5 h-5 text-white/80" />
                 </span>
                 <a
-                  href="mailto:info@konnections.co.in"
+                  href="mailto:info@konnectionsimag.com"
                   className="text-white/80 hover:text-white text-base transition-colors duration-300 break-all md:break-normal"
                 >
-                  info@konnections.co.in
+                  info@konnectionsimag.com
                 </a>
               </div>
             </div>

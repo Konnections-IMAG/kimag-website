@@ -73,7 +73,7 @@ export const organizationSchema: OrganizationSchema = {
     "@type": "ContactPoint",
     telephone: "+91-7032939360",
     contactType: "Customer Service",
-    email: "info@konnections.co.in"
+    email: "info@konnectionsimag.com"
   },
   sameAs: [
     "https://www.facebook.com/Konnections/",
