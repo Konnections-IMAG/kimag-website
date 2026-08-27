@@ -7,7 +7,10 @@ const nextConfig: NextConfig = {
   
   // Image optimization
   images: {
-    domains: ['images.unsplash.com', 'www.konnectionsimag.com'],
+    remotePatterns: [
+      { protocol: 'https', hostname: 'images.unsplash.com' },
+      { protocol: 'https', hostname: 'www.konnectionsimag.com' },
+    ],
     formats: ['image/webp', 'image/avif'], // Modern image formats
   },
   
