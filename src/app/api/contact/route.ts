@@ -3,7 +3,7 @@ import { sendContactFormEmail, sendContactConfirmationEmail } from '@/lib/mail';
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, phone, subject, message } = await req.json();
+    const { name, email, phone, subject, message, requestCaseStudies } = await req.json();
 
     // Validate required fields
     if (!name || !email || !subject || !message) {
@@ -19,14 +19,16 @@ export async function POST(req: NextRequest) {
       email,
       phone: phone || '',
       subject,
-      message
+      message,
+      requestCaseStudies: !!requestCaseStudies
     });
 
     // Send confirmation email to user
     await sendContactConfirmationEmail({
       name,
       email,
-      subject
+      subject,
+      requestCaseStudies: !!requestCaseStudies
     });
 
     return NextResponse.json({ 

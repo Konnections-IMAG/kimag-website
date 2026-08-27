@@ -8,18 +8,20 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export async function sendContactFormEmail({ 
-  name, 
-  email, 
-  phone, 
-  subject, 
-  message 
-}: { 
-  name: string; 
-  email: string; 
-  phone: string; 
-  subject: string; 
-  message: string; 
+export async function sendContactFormEmail({
+  name,
+  email,
+  phone,
+  subject,
+  message,
+  requestCaseStudies
+}: {
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+  requestCaseStudies?: boolean;
 }) {
   // Admin email address - you can change this to your preferred email
   const adminEmail = process.env.ADMIN_EMAIL || process.env.MAIL_USER;
@@ -47,9 +49,10 @@ export async function sendContactFormEmail({
             <p style="margin: 5px 0; color: #333;"><strong>Email:</strong> <a href="mailto:${email}" style="color: #348992;">${email}</a></p>
             ${phone ? `<p style="margin: 5px 0; color: #333;"><strong>Phone:</strong> <a href="tel:${phone}" style="color: #348992;">${phone}</a></p>` : ''}
             <p style="margin: 5px 0; color: #333;"><strong>Subject:</strong> ${subject}</p>
+            ${requestCaseStudies ? '<p style="margin: 5px 0; color: #d73c77;"><strong>Requested:</strong> Relevant case studies / examples</p>' : ''}
           </div>
         </div>
-        
+
         <div style="padding: 20px; background: #f9f9f9; border-radius: 10px; margin-bottom: 30px;">
           <h3 style="color: #2d6389; margin-top: 0;">Message:</h3>
           <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #d73c77;">
@@ -82,14 +85,16 @@ export async function sendContactFormEmail({
   });
 }
 
-export async function sendContactConfirmationEmail({ 
-  name, 
-  email, 
-  subject 
-}: { 
-  name: string; 
-  email: string; 
-  subject: string; 
+export async function sendContactConfirmationEmail({
+  name,
+  email,
+  subject,
+  requestCaseStudies
+}: {
+  name: string;
+  email: string;
+  subject: string;
+  requestCaseStudies?: boolean;
 }) {
   await transporter.sendMail({
     from: `Konnections IMAG Team <${process.env.MAIL_USER}>`,
@@ -125,7 +130,16 @@ export async function sendContactConfirmationEmail({
               <li>We'll schedule a call or meeting if needed to discuss your project</li>
             </ul>
           </div>
-          
+
+          ${requestCaseStudies ? `
+          <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #d73c77; margin: 20px 0;">
+            <h4 style="margin: 0 0 10px 0; color: #2d6389;">Case studies on the way</h4>
+            <p style="color: #333; line-height: 1.6; margin: 0;">
+              You asked for relevant case studies and examples — our team will include a set tailored to your sector when they respond.
+            </p>
+          </div>
+          ` : ''}
+
           <p style="color: #333; line-height: 1.6;">
             In the meantime, feel free to explore our portfolio and case studies on our website to see how we've helped other businesses achieve their communication goals.
           </p>
