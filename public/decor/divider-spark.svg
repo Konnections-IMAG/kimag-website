@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 48" fill="none">
+  <!-- Section divider: hairlines with the trio spark at centre -->
+  <line x1="0" y1="24" x2="368" y2="24" stroke="#e3eaec" stroke-width="1"/>
+  <line x1="432" y1="24" x2="800" y2="24" stroke="#e3eaec" stroke-width="1"/>
+  <g transform="translate(388 12)">
+    <path d="M5 8.5 A7 7 0 0 1 19 8.5 A9.1 9.1 0 0 0 5 8.5 Z" fill="#d73c77"/>
+    <path d="M5 8.5 A7 7 0 0 1 19 8.5 A9.1 9.1 0 0 0 5 8.5 Z" fill="#348992" transform="rotate(120 12 12.5)"/>
+    <path d="M5 8.5 A7 7 0 0 1 19 8.5 A9.1 9.1 0 0 0 5 8.5 Z" fill="#2d6389" transform="rotate(240 12 12.5)"/>
+  </g>
+</svg>

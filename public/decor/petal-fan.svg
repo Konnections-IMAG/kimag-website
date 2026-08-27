@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 160" fill="none">
+  <!-- Crescents fanned from one pivot, translucent overlap -->
+  <g fill-opacity="0.85">
+    <path d="M40 130 A80 80 0 0 1 200 130 A104 104 0 0 0 40 130 Z" fill="#fbedf3"/>
+    <path d="M40 130 A80 80 0 0 1 200 130 A104 104 0 0 0 40 130 Z" fill="#d73c77" transform="rotate(-14 40 130)"/>
+    <path d="M40 130 A80 80 0 0 1 200 130 A104 104 0 0 0 40 130 Z" fill="#348992" transform="rotate(-28 40 130)"/>
+    <path d="M40 130 A80 80 0 0 1 200 130 A104 104 0 0 0 40 130 Z" fill="#2d6389" transform="rotate(-42 40 130)"/>
+  </g>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Point-down triangle of dots, colours rotating through the palette -->
+  <g>
+    <circle cx="40" cy="40" r="4" fill="#348992"/>
+    <circle cx="70" cy="40" r="4" fill="#d73c77"/>
+    <circle cx="100" cy="40" r="4" fill="#2d6389"/>
+    <circle cx="130" cy="40" r="4" fill="#348992"/>
+    <circle cx="160" cy="40" r="4" fill="#d73c77"/>
+    <circle cx="55" cy="70" r="4" fill="#d73c77"/>
+    <circle cx="85" cy="70" r="4" fill="#2d6389"/>
+    <circle cx="115" cy="70" r="4" fill="#348992"/>
+    <circle cx="145" cy="70" r="4" fill="#d73c77"/>
+    <circle cx="70" cy="100" r="4" fill="#2d6389"/>
+    <circle cx="100" cy="100" r="4" fill="#d73c77"/>
+    <circle cx="130" cy="100" r="4" fill="#348992"/>
+    <circle cx="85" cy="130" r="4" fill="#d73c77"/>
+    <circle cx="115" cy="130" r="4" fill="#2d6389"/>
+    <circle cx="100" cy="160" r="4" fill="#d73c77"/>
+  </g>
+</svg>

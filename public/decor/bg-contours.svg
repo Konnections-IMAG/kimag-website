@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" fill="none" preserveAspectRatio="xMidYMid slice">
+  <!-- Abstract topographic contours — drifting nested isolines, brand trio -->
+  <g stroke-width="1.25" fill="none" stroke-linecap="round">
+    <path d="M-40 300 C 120 220 200 360 360 280 C 500 210 560 340 700 260" stroke="#348992"/>
+    <path d="M-40 330 C 130 250 210 390 370 310 C 510 240 570 370 700 290" stroke="#348992" opacity="0.7"/>
+    <path d="M-40 360 C 140 280 220 420 380 340 C 520 270 580 400 700 320" stroke="#2d6389" opacity="0.55"/>
+    <path d="M-40 150 C 150 90 250 210 400 140 C 540 75 600 200 700 130" stroke="#d73c77" opacity="0.6"/>
+    <path d="M-40 178 C 160 118 260 238 410 168 C 550 103 610 228 700 158" stroke="#d73c77" opacity="0.4"/>
+    <path d="M-40 120 C 140 66 240 182 390 112 C 530 47 590 172 700 102" stroke="#2d6389" opacity="0.45"/>
+  </g>
+</svg>

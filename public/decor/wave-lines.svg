@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 80" fill="none" preserveAspectRatio="none">
+  <!-- Three offset hairline waves, full-width band -->
+  <g stroke-width="1.5" fill="none">
+    <path d="M0 40 C 130 10 270 70 400 40 C 530 10 670 70 800 40" stroke="#348992"/>
+    <path d="M0 52 C 130 22 270 82 400 52 C 530 22 670 82 800 52" stroke="#d73c77"/>
+    <path d="M0 64 C 130 34 270 94 400 64 C 530 34 670 94 800 64" stroke="#2d6389"/>
+  </g>
+</svg>

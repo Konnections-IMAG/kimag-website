@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 80" fill="none">
+  <!-- Paired comma crescents — abstract quotation mark for testimonials -->
+  <path d="M10 40 A30 30 0 0 1 70 40 A39 39 0 0 0 10 40 Z" fill="#d73c77" transform="rotate(90 40 40)"/>
+  <path d="M10 40 A30 30 0 0 1 70 40 A39 39 0 0 0 10 40 Z" fill="#348992" transform="translate(50 0) rotate(90 40 40)"/>
+</svg>

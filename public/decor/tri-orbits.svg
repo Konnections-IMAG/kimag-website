@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 210" fill="none">
+  <!-- Concentric rounded-triangle hairlines (shield silhouette of the mark) -->
+  <g stroke-width="1.5" stroke-linecap="round">
+    <path d="M66 67.5 L134 67.5 A18 18 0 0 1 149.5 94.3 L115.5 153.2 A18 18 0 0 1 84.5 153.2 L50.5 94.3 A18 18 0 0 1 66 67.5 Z" stroke="#d73c77"/>
+    <path d="M66 67.5 L134 67.5 A18 18 0 0 1 149.5 94.3 L115.5 153.2 A18 18 0 0 1 84.5 153.2 L50.5 94.3 A18 18 0 0 1 66 67.5 Z" stroke="#348992" transform="translate(100 110) scale(0.78) translate(-100 -110)"/>
+    <path d="M66 67.5 L134 67.5 A18 18 0 0 1 149.5 94.3 L115.5 153.2 A18 18 0 0 1 84.5 153.2 L50.5 94.3 A18 18 0 0 1 66 67.5 Z" stroke="#2d6389" transform="translate(100 110) scale(0.56) translate(-100 -110)"/>
+  </g>
+</svg>

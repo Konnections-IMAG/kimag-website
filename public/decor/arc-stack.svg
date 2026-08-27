@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 130" fill="none">
+  <!-- Nested hairline arcs, editorial rainbow of the brand palette -->
+  <g stroke-width="1.5" stroke-linecap="round">
+    <path d="M20 130 A100 100 0 0 1 220 130" stroke="#348992"/>
+    <path d="M40 130 A80 80 0 0 1 200 130" stroke="#d73c77"/>
+    <path d="M60 130 A60 60 0 0 1 180 130" stroke="#2d6389"/>
+  </g>
+</svg>

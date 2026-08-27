@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import Lenis from "lenis";
+import { MotionConfig } from "framer-motion";
 
 interface SmoothScrollProviderProps {
 	children: React.ReactNode;
@@ -37,5 +38,9 @@ export default function SmoothScrollProvider({ children }: SmoothScrollProviderP
 			window.history.scrollRestoration = "manual";
 		}
 	}, []);
-	return <div>{children}</div>;
+	return (
+		<MotionConfig reducedMotion="user">
+			<div>{children}</div>
+		</MotionConfig>
+	);
 }
