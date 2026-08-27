@@ -1,528 +1,270 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { gsap } from 'gsap';
-import { motion } from 'framer-motion';
-import CardSwap, { Card } from './CardSwap';
+'use client';
+
+import React from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { FaNewspaper, FaShieldAlt, FaLaptop, FaBuilding, FaBullseye } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
+import { smoothScrollTo } from '../../lib/smoothScroll';
+import ImageReveal from './ui/ImageReveal';
+import Parallax from './ui/Parallax';
+import CountUp from './ui/CountUp';
+import { TriangleBlob } from './ui/Decor';
 
-const Hero = () => {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const particlesRef = useRef<HTMLDivElement>(null);
-  const titleFirstRef = useRef<HTMLSpanElement>(null);
-  const titleSecondRef = useRef<HTMLSpanElement>(null);
-  const descriptionRef = useRef<HTMLParagraphElement>(null);
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  const cardSwapRef = useRef<HTMLDivElement>(null);
-  const [windowWidth, setWindowWidth] = useState(1200);
-  const [isMounted, setIsMounted] = useState(false);
-  const router = useRouter();
+const stats = [
+  { value: 15, suffix: '+', label: 'Years advising brands' },
+  { value: 500, suffix: '+', label: 'Brands represented' },
+  { value: 30, suffix: '+', label: 'Industry verticals' },
+];
 
-  useEffect(() => {
-    setIsMounted(true);
-    setWindowWidth(window.innerWidth);
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
+const credentials = [
+  { src: '/iimbang.png', alt: 'IIM Bangalore', note: 'Recognised by IIM Bangalore' },
+  { src: '/nsrcel.png', alt: 'NSRCEL', note: 'Incubated at NSRCEL' },
+  { src: '/prci.png', alt: 'PRCI', note: 'Awarded by PRCI' },
+];
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+const easing = [0.22, 1, 0.36, 1] as const;
 
-  // Use a consistent breakpoint that works for both server and client
-  const isMobile = isMounted ? windowWidth < 768 : false;
+/** One word rising from behind its own baseline mask. */
+const MaskedWord: React.FC<{ children: React.ReactNode; delay: number }> = ({
+  children,
+  delay,
+}) => (
+  <span className="-mb-[0.15em] inline-block overflow-hidden pb-[0.15em] align-bottom">
+    <motion.span
+      className="inline-block"
+      initial={{ y: '115%' }}
+      animate={{ y: '0%' }}
+      transition={{ duration: 0.9, delay, ease: easing }}
+    >
+      {children}
+    </motion.span>
+  </span>
+);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Set initial states
-      gsap.set([titleFirstRef.current, titleSecondRef.current, descriptionRef.current, buttonRef.current], {
-        opacity: 0,
-        y: 50
-      });
-      
-      gsap.set(cardSwapRef.current, {
-        opacity: 0,
-        x: 100,
-        scale: 0.8
-      });
-
-      // Create timeline
-      const tl = gsap.timeline({ delay: 0.2 });
-
-      // Animate elements in sequence
-      tl.to(titleFirstRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power3.out"
-      })
-      .to(titleSecondRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power3.out"
-      }, "-=0.4")
-      .to(descriptionRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        ease: "power2.out"
-      }, "-=0.3")
-      .to(buttonRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        ease: "back.out(1.7)"
-      }, "-=0.2")
-      .to(cardSwapRef.current, {
-        opacity: 1,
-        x: 0,
-        scale: 1,
-        duration: 1,
-        ease: "power3.out"
-      }, "-=0.4");
-
-    }, heroRef);
-
-    return () => ctx.revert();
-  }, []);
+const Hero: React.FC = () => {
+  const enter = (delay: number) => ({
+    initial: { opacity: 0, y: 32 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.9, delay, ease: easing },
+  });
 
   return (
-  <div
-    ref={heroRef}
-    style={{
-      height: isMobile ? 'auto' : '600px',
-      minHeight: isMobile ? 'auto' : '600px',
-      position: 'relative',
-      display: 'flex',
-      flexDirection: isMobile ? 'column' : 'row',
-      alignItems: 'center',
-      justifyContent: isMobile ? 'center' : 'space-between',
-      padding: isMobile ? '96px 16px 60px 16px' : '0 4vw',
-      boxSizing: 'border-box',
-      gap: isMobile ? 60 : 0,
-      width: '100%',
-      maxWidth: '1600px',
-      margin: '0 auto',
-      background: '#fafdff',
-      overflow: 'hidden',
-      marginTop: isMobile ? '0px' : '42px',
-    }}
-  >
-    {/* Decorative Triangles in Blank Space */}
-    <div style={{position:'absolute',left:isMobile?'10%':'7%',top:isMobile?'32%':'28%',zIndex:2,pointerEvents:'none'}}>
-      <svg width={isMobile ? 28 : 38} height={isMobile ? 26 : 34} viewBox="0 0 38 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <polygon points="19,0 38,34 0,34" fill="#348992" fillOpacity="0.13" />
-      </svg>
-    </div>
-    <div style={{position:'absolute',left:isMobile?'18%':'13%',top:isMobile?'44%':'38%',zIndex:2,pointerEvents:'none'}}>
-      <svg width={isMobile ? 18 : 24} height={isMobile ? 16 : 22} viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <polygon points="12,0 24,22 0,22" fill="#d73c77" fillOpacity="0.11" />
-      </svg>
-    </div>
-    <div style={{position:'absolute',left:isMobile?'7%':'4%',top:isMobile?'60%':'54%',zIndex:2,pointerEvents:'none'}}>
-      <svg width={isMobile ? 14 : 18} height={isMobile ? 12 : 16} viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <polygon points="9,0 18,16 0,16" fill="#2d6389" fillOpacity="0.10" />
-      </svg>
-    </div>
-    {/* Background SVG grid and circles */}
-    <svg
-      width="100%"
-      height="100%"
-      style={{
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        width: '100%',
-        height: '100%',
-        zIndex: 0,
-        pointerEvents: 'none',
-      }}
-      viewBox="0 0 1600 600"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {/* Grid */}
-      <defs>
-        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e3eef7" strokeWidth="1" />
-        </pattern>
-        <radialGradient id="radial1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-          <stop offset="0%" stopColor="#00d2ff" stopOpacity="0.10" />
-          <stop offset="100%" stopColor="#fff" stopOpacity="0" />
-        </radialGradient>
-        <radialGradient id="radial2" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-          <stop offset="0%" stopColor="#ff7eb3" stopOpacity="0.10" />
-          <stop offset="100%" stopColor="#fff" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      <rect width="1600" height="600" fill="url(#grid)" />
-      {/* Radial circles */}
-      <circle cx="1200" cy="300" r="220" fill="url(#radial1)" />
-      <circle cx="1200" cy="300" r="120" fill="url(#radial2)" />
-      <circle cx="400" cy="100" r="120" fill="url(#radial1)" />
-    </svg>
-    {/* Modern Floating Particles */}
-  <div ref={particlesRef} className="absolute inset-0 pointer-events-none" style={{zIndex: 1}}>
-
-      {/* Triangle Particles - Increased and Varied */}
-      <motion.div 
-        className="absolute top-[20%] left-[15%]"
-        animate={{ 
-          y: [0, -20, 0],
-          rotate: [0, 120, 240],
-          scale: [1, 1.1, 1]
-        }}
-        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-      >
-  <div className={isMobile ? "w-0 h-0 border-l-[12px] border-r-[12px] border-b-[22px] border-l-transparent border-r-transparent border-b-[#2d6389]/20 filter drop-shadow-lg" : "w-0 h-0 border-l-[20px] border-r-[20px] border-b-[35px] border-l-transparent border-r-transparent border-b-[#2d6389]/20 filter drop-shadow-lg"}></div>
-      </motion.div>
-
-      <motion.div 
-        className="absolute top-[10%] left-[30%]"
-        animate={{ 
-          y: [0, -30, 0],
-          rotate: [0, 180, 360],
-          scale: [1, 1.15, 1]
-        }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-      >
-  <div className={isMobile ? "w-0 h-0 border-l-[10px] border-r-[10px] border-b-[18px] border-l-transparent border-r-transparent border-b-[#d73c77]/20 filter drop-shadow-lg" : "w-0 h-0 border-l-[16px] border-r-[16px] border-b-[28px] border-l-transparent border-r-transparent border-b-[#d73c77]/20 filter drop-shadow-lg"}></div>
-      </motion.div>
-
-      <motion.div 
-        className="absolute top-[35%] left-[10%]"
-        animate={{ 
-          y: [0, -18, 0],
-          rotate: [0, 90, 180],
-          scale: [1, 1.08, 1]
-        }}
-        transition={{ duration: 13, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-      >
-  <div className={isMobile ? "w-0 h-0 border-l-[8px] border-r-[8px] border-b-[14px] border-l-transparent border-r-transparent border-b-[#348992]/20 filter drop-shadow-lg" : "w-0 h-0 border-l-[12px] border-r-[12px] border-b-[20px] border-l-transparent border-r-transparent border-b-[#348992]/20 filter drop-shadow-lg"}></div>
-      </motion.div>
-
-      <motion.div 
-        className="absolute bottom-[10%] left-[20%]"
-        animate={{ 
-          y: [0, 22, 0],
-          rotate: [0, 60, 120],
-          scale: [1, 1.12, 1]
-        }}
-        transition={{ duration: 17, repeat: Infinity, ease: "easeInOut", delay: 3 }}
-      >
-  <div className={isMobile ? "w-0 h-0 border-l-[10px] border-r-[10px] border-b-[18px] border-l-transparent border-r-transparent border-b-[#2d6389]/15 filter drop-shadow-lg" : "w-0 h-0 border-l-[18px] border-r-[18px] border-b-[30px] border-l-transparent border-r-transparent border-b-[#2d6389]/15 filter drop-shadow-lg"}></div>
-      </motion.div>
-
-      <motion.div 
-        className="absolute top-[30%] right-[20%]"
-        animate={{ 
-          y: [0, 30, 0],
-          rotate: [0, -90, -180],
-          scale: [1, 0.8, 1]
-        }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-      >
-  <div className={isMobile ? "w-4 h-4 bg-gradient-to-br from-[#d73c77]/30 to-[#348992]/30 rotate-45 rounded-sm filter drop-shadow-lg" : "w-6 h-6 bg-gradient-to-br from-[#d73c77]/30 to-[#348992]/30 rotate-45 rounded-sm filter drop-shadow-lg"}></div>
-      </motion.div>
-
-      <motion.div 
-        className="absolute bottom-[25%] left-[25%]"
-        animate={{ 
-          y: [0, -25, 0],
-          x: [0, 15, 0],
-          rotate: [0, 180, 360]
-        }}
-        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-      >
-  <div className={isMobile ? "w-6 h-6 bg-gradient-to-tr from-[#348992]/25 to-[#2d6389]/25 rounded-full filter drop-shadow-lg" : "w-8 h-8 bg-gradient-to-tr from-[#348992]/25 to-[#2d6389]/25 rounded-full filter drop-shadow-lg"}></div>
-      </motion.div>
-
-      <motion.div 
-        className="absolute bottom-[35%] right-[15%]"
-        animate={{ 
-          y: [0, 20, 0],
-          x: [0, -10, 0],
-          scale: [1, 1.3, 1]
-        }}
-        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-      >
-  <div className={isMobile ? "w-0 h-0 border-l-[9px] border-r-[9px] border-b-[16px] border-l-transparent border-r-transparent border-b-[#d73c77]/20 filter drop-shadow-lg" : "w-0 h-0 border-l-[15px] border-r-[15px] border-b-[25px] border-l-transparent border-r-transparent border-b-[#d73c77]/20 filter drop-shadow-lg"}></div>
-      </motion.div>
-
-      <motion.div 
-        className="absolute top-[50%] left-[40%]"
-        animate={{ 
-          y: [0, -15, 0],
-          rotate: [0, 60, 120]
-        }}
-        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
-      >
-  <div className={isMobile ? "w-3 h-3 bg-gradient-to-bl from-[#2d6389]/30 to-[#d73c77]/30 rotate-45 filter drop-shadow-lg" : "w-4 h-4 bg-gradient-to-bl from-[#2d6389]/30 to-[#d73c77]/30 rotate-45 filter drop-shadow-lg"}></div>
-      </motion.div>
-
-      <motion.div 
-        className="absolute top-[70%] right-[30%]"
-        animate={{ 
-          y: [0, 25, 0],
-          rotate: [0, -45, -90]
-        }}
-        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-      >
-  <div className={isMobile ? "w-4 h-4 bg-gradient-to-tl from-[#348992]/25 to-[#2d6389]/25 rounded-sm filter drop-shadow-lg" : "w-5 h-5 bg-gradient-to-tl from-[#348992]/25 to-[#2d6389]/25 rounded-sm filter drop-shadow-lg"}></div>
-      </motion.div>
-    </div>
-    <svg
-      width="100%"
-      height="100%"
-      style={{
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        width: '100%',
-        height: '100%',
-        zIndex: 0,
-        pointerEvents: 'none',
-      }}
-      viewBox="0 0 1600 600"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {/* Grid */}
-      <defs>
-        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e3eef7" strokeWidth="1" />
-        </pattern>
-        <radialGradient id="radial1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-          <stop offset="0%" stopColor="#00d2ff" stopOpacity="0.10" />
-          <stop offset="100%" stopColor="#fff" stopOpacity="0" />
-        </radialGradient>
-        <radialGradient id="radial2" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-          <stop offset="0%" stopColor="#ff7eb3" stopOpacity="0.10" />
-          <stop offset="100%" stopColor="#fff" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      <rect width="1600" height="600" fill="url(#grid)" />
-      {/* Radial circles */}
-      <circle cx="1200" cy="300" r="220" fill="url(#radial1)" />
-      <circle cx="1200" cy="300" r="120" fill="url(#radial2)" />
-      <circle cx="400" cy="100" r="120" fill="url(#radial1)" />
-    </svg>
-    {/* Left side text */}
-    <div
-      style={{
-        flex: isMobile ? 'none' : '0 0 800px',
-        width: isMobile ? '100%' : 'auto',
-        zIndex: 2,
-        maxWidth: isMobile ? '100%' : 800,
-        minWidth: isMobile ? 'auto' : 350,
-        background: 'transparent',
-        borderRadius: '28px',
-        boxShadow: 'none',
-        padding: '0 0 0 0',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: isMobile ? 16 : 16,
-        position: 'relative',
-        overflow: 'visible',
-        justifyContent: 'center',
-        height: isMobile ? 'auto' : '100%',
-        marginTop: 0,
-        alignSelf: 'center',
-        textAlign: isMobile ? 'center' : 'left',
-      }}
-    >
-      <h1
-        style={{
-          fontFamily: 'Poppins, Arial, sans-serif',
-          fontSize: isMobile ? '2.2rem' : windowWidth < 1024 ? '3.2rem' : '4.2rem',
-          fontWeight: 700,
-          color: '#181f2a',
-          lineHeight: 1.2,
-          margin: 0,
-          letterSpacing: '-0.01em',
-          textAlign: isMobile ? 'center' : 'left',
-          filter: 'none',
-          textShadow: 'none',
-        }}
-      >
-        <span ref={titleFirstRef} style={{
-          display: 'block',
-          fontSize: isMobile ? '2rem' : windowWidth < 1024 ? '2.8rem' : '3.8rem',
-          fontWeight: 700,
-          color: '#181f2a',
-          lineHeight: 1.2,
-          letterSpacing: '-0.01em',
-          textAlign: isMobile ? 'center' : 'left',
-          marginBottom: isMobile ? '0.15em' : '0.2em',
-          fontFamily: 'Poppins, Arial, sans-serif',
-        }}>
-          We Shape Narratives.
-        </span>
-        <span ref={titleSecondRef} style={{
-          display: 'block',
-          fontSize: isMobile ? '2rem' : windowWidth < 1024 ? '2.8rem' : '3.8rem',
-          fontWeight: 700,
-          color: 'transparent',
-          background: 'linear-gradient(90deg, #14b8a6 0%, #e91e63 95%, #4a90c2 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-          lineHeight: 1.1,
-          letterSpacing: '-0.01em',
-          textAlign: isMobile ? 'center' : 'left',
-          fontFamily: 'Poppins, Arial, sans-serif',
-        }}>
-          We Build Reputations.
-        </span>
-      </h1>
-      <p
-        ref={descriptionRef}
-        style={{
-          fontSize: isMobile ? '1rem' : '1.3rem',
-          color: '#2d3748',
-          maxWidth: isMobile ? '100%' : 540,
-          lineHeight: 1.6,
-          margin: isMobile ? '12px 0 0 0' : '12px 0 0 0',
-          fontWeight: 500,
-          opacity: 0.95,
-          textShadow: '0 1px 2px rgba(0,0,0,0.02)',
-          fontFamily: 'Poppins, Arial, sans-serif',
-          textAlign: isMobile ? 'center' : 'left',
-          paddingLeft: isMobile ? '8px' : '0',
-          paddingRight: isMobile ? '8px' : '0',
-        }}
-      >
-        India&apos;s leading integrated communications agency trusted for strategic PR, reputation management, crisis response, and corporate storytelling across diverse industries.
-      </p>
-      <button
-        ref={buttonRef}
-        onClick={() => router.push('/#contact')}
-        style={{
-          marginTop: isMobile ? 16 : 20,
-          padding: isMobile ? '12px 24px' : '14px 28px',
-          fontSize: isMobile ? '1rem' : '1.1rem',
-          fontWeight: 500,
-          color: '#14b8a6',
-          background: 'transparent',
-          border: '2px solid #14b8a6',
-          borderRadius: '8px',
-          cursor: 'pointer',
-          transition: 'all 0.2s ease',
-          width: 'fit-content',
-          display: 'flex',
-          alignItems: 'center',
-          alignSelf: isMobile ? 'center' : 'flex-start',
-          fontFamily: 'Poppins, Arial, sans-serif',
-          letterSpacing: '0.2px',
-          boxShadow: 'none',
-        }}
-        onMouseEnter={e => {
-          const btn = e.currentTarget;
-          btn.style.backgroundColor = '#14b8a6';
-          btn.style.color = '#fff';
-          const arrow = btn.querySelector('.arrow-animation') as HTMLElement;
-          if (arrow) {
-            arrow.style.transform = 'translateX(4px)';
-          }
-        }}
-        onMouseLeave={e => {
-          const btn = e.currentTarget;
-          btn.style.backgroundColor = 'transparent';
-          btn.style.color = '#14b8a6';
-          const arrow = btn.querySelector('.arrow-animation') as HTMLElement;
-          if (arrow) {
-            arrow.style.transform = 'translateX(0px)';
-          }
-        }}
-      >
-  <span>{isMobile ? 'Get the PR that Matters' : 'Get the PR that Matters'}</span>
-        <span 
-          style={{
-            marginLeft: '8px',
-            display: 'inline-block',
-            transition: 'transform 0.3s ease',
-            fontSize: '1em',
-          }}
-          className="arrow-animation"
-        >
-          →
-        </span>
-      </button>
-    </div>
-    {/* Right side CardSwap */}
-    <div
-      style={{
-        flex: isMobile ? 'none' : 1,
-        width: isMobile ? '100%' : 'auto',
-        position: 'relative',
-        minWidth: 0,
-        display: 'flex',
-        justifyContent: isMobile ? 'center' : 'flex-end',
-        alignItems: 'center',
-        height: isMobile ? 'auto' : '100%',
-        overflow: 'visible',
-        marginTop: isMobile ? '120px' : '-80px',
-        zIndex: 2,
-      }}
-    >
+    <section className="relative overflow-hidden bg-white pt-[72px]">
+      {/* Quiet backdrop: a single soft brand tint, nothing more */}
       <div
-        ref={cardSwapRef}
-        style={{
-          position: 'relative',
-          width: isMobile ? 280 : windowWidth < 1024 ? 480 : 640,
-          height: isMobile ? 280 : windowWidth < 1024 ? 480 : 640,
-          maxWidth: isMobile ? '280px' : '100%',
-          maxHeight: isMobile ? '280px' : '100%',
-          marginTop: isMobile ? 0 : -70,
-          margin: isMobile ? '0 auto' : 'auto',
-        }}
-      >
-        <CardSwap
-          cardDistance={isMobile ? 30 : 60}
-          verticalDistance={isMobile ? 35 : 70}
-          delay={5000}
-          pauseOnHover={false}
+        aria-hidden
+        className="pointer-events-none absolute -right-64 -top-64 h-[720px] w-[720px] rounded-full bg-[radial-gradient(closest-side,var(--color-teal-tint),transparent)]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-80 -left-72 h-[760px] w-[760px] rounded-full bg-[radial-gradient(closest-side,var(--color-rose-tint),transparent)]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-40 top-1/3 h-[560px] w-[560px] rounded-full bg-[radial-gradient(closest-side,var(--color-rose-tint),transparent)] opacity-80"
+      />
+      <TriangleBlob color="blue" className="left-1/3 top-10 h-72 w-72" rotate={-12} opacity={0.12} />
+      <TriangleBlob color="rose" className="-right-16 bottom-0 h-80 w-80" rotate={18} opacity={0.2} />
+      <TriangleBlob color="rose" className="-left-20 top-24 h-72 w-72" rotate={150} opacity={0.16} />
+      <Image
+        src="/decor/dot-triangle.svg"
+        alt=""
+        aria-hidden
+        width={200}
+        height={200}
+        className="pointer-events-none absolute right-8 top-24 hidden w-36 opacity-60 lg:block xl:w-44"
+      />
+
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
+        <div className="grid gap-14 py-16 md:py-24 lg:grid-cols-12 lg:gap-8 lg:py-28">
+          {/* Editorial statement */}
+          <div className="lg:col-span-6 lg:pr-6">
+            <motion.p {...enter(0.05)} className="eyebrow">
+              Public relations · Branding · Reputation
+            </motion.p>
+
+            <h1 className="mt-7 font-display text-[2.75rem] leading-[1.08] tracking-[-0.015em] text-ink sm:text-6xl lg:text-[4.25rem]">
+              <span className="sr-only">
+                We shape narratives. We build reputations.
+              </span>
+              <span aria-hidden className="block">
+                {['We', 'shape', 'narratives.'].map((word, i) => (
+                  <React.Fragment key={word}>
+                    {i > 0 && ' '}
+                    <MaskedWord delay={0.12 + i * 0.08}>{word}</MaskedWord>
+                  </React.Fragment>
+                ))}
+              </span>
+              <span aria-hidden className="block">
+                {['We', 'build'].map((word, i) => (
+                  <React.Fragment key={word}>
+                    {i > 0 && ' '}
+                    <MaskedWord delay={0.42 + i * 0.08}>{word}</MaskedWord>
+                  </React.Fragment>
+                ))}{' '}
+                <MaskedWord delay={0.58}>
+                  <em className="relative inline-block not-italic">
+                    <span className="relative z-10 italic text-teal-deep">
+                      reputations.
+                    </span>
+                    <motion.span
+                      aria-hidden
+                      className="absolute -bottom-1 left-0 z-0 h-3 w-full origin-left bg-rose-brand/25 sm:-bottom-1.5 sm:h-4"
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ duration: 0.7, delay: 1.15, ease: easing }}
+                    />
+                  </em>
+                </MaskedWord>
+              </span>
+            </h1>
+
+            <motion.p
+              {...enter(0.5)}
+              className="mt-8 max-w-xl text-lg leading-relaxed text-ink-soft"
+            >
+              Konnections IMAG is an integrated communications consultancy trusted
+              by India&apos;s leading organisations for strategic public relations,
+              reputation management, crisis counsel, and corporate storytelling.
+            </motion.p>
+
+            <motion.div {...enter(0.62)} className="mt-10 flex flex-wrap items-center gap-4">
+              <button
+                onClick={() => smoothScrollTo('#contact', { duration: 1.4, offset: -80 })}
+                className="btn-primary"
+              >
+                Start a conversation
+                <ArrowRight className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => smoothScrollTo('#services', { duration: 1.2, offset: -80 })}
+                className="btn-outline"
+              >
+                Explore our practice
+              </button>
+            </motion.div>
+          </div>
+
+          {/* Editorial photo collage */}
+          <div className="relative mb-12 mt-2 lg:col-span-5 lg:col-start-8 lg:mb-6 lg:mt-0">
+            {/* Offset tint frame behind the lead image */}
+            <motion.div
+              aria-hidden
+              className="absolute -right-4 -top-4 h-full w-full rounded-2xl bg-rose-tint sm:-right-6 sm:-top-6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.7, ease: easing }}
+            />
+            <ImageReveal from="bottom" delay={0.35} radius="1rem" className="relative">
+              <Image
+                src="/hero/PR.png"
+                alt="Executive reading business press coverage in print"
+                width={880}
+                height={1100}
+                priority
+                sizes="(min-width: 1024px) 40vw, 92vw"
+                className="aspect-[4/5] w-full object-cover"
+              />
+            </ImageReveal>
+
+            {/* Overlapping second frame, drifting on scroll */}
+            <Parallax
+              speed={30}
+              className="absolute -bottom-10 -left-3 w-40 sm:-left-8 sm:w-52"
+            >
+              <ImageReveal from="left" delay={0.75} radius="0.75rem">
+                <div className="border-4 border-white">
+                  <Image
+                    src="/hero/digital.png"
+                    alt="Creator sharing a brand story with her audience"
+                    width={520}
+                    height={390}
+                    sizes="(min-width: 640px) 208px, 160px"
+                    className="aspect-[4/3] w-full object-cover"
+                  />
+                </div>
+              </ImageReveal>
+            </Parallax>
+
+            {/* <motion.p
+              {...enter(1.1)}
+              className="mt-4 text-right font-display text-sm italic text-ink-faint"
+            >
+              From the boardroom to the feed — one coherent story.
+            </motion.p> */}
+          </div>
+        </div>
+
+        {/* Promise + proof band */}
+        <motion.div
+          {...enter(0.75)}
+          className="relative grid gap-10 border-t border-line py-10 lg:grid-cols-12 lg:items-center"
         >
-          {/* Slide 1: Public Relations */}
-          <Card href="/services/public-relations" style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'flex-start',background:'rgba(255,255,255,0.95)',padding:0,overflow:'hidden',boxShadow:'0 4px 20px rgba(0,0,0,0.08)'}}>
-            <div style={{width:'100%',padding: isMobile ? '12px 0 6px 14px' : '16px 0 8px 18px',textAlign:'left',color:'#348992',fontWeight:700,letterSpacing:0.3,fontSize: isMobile ? '0.95rem' : '1.1rem',display:'flex',alignItems:'center',gap: isMobile ? 8 : 10}}>
-              <FaNewspaper style={{color:'#348992',fontSize: isMobile ? '1.1em' : '1.3em'}} /> Public Relations
-            </div>
-            <Image src="/hero/PR.png" alt="PR" width={600} height={500} style={{width:'100%',height:'78%',objectFit:'cover',borderRadius:'0 0 18px 18px',marginTop:0}} draggable={false} />
-          </Card>
-          {/* Slide 2: Crisis Management */}
-          <Card href="/services/crisis-management" style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'flex-start',background:'rgba(255,255,255,0.95)',padding:0,overflow:'hidden',boxShadow:'0 4px 20px rgba(0,0,0,0.08)'}}>
-            <div style={{width:'100%',padding: isMobile ? '12px 0 6px 14px' : '16px 0 8px 18px',textAlign:'left',color:'#348992',fontWeight:700,letterSpacing:0.3,fontSize: isMobile ? '0.95rem' : '1.1rem',display:'flex',alignItems:'center',gap: isMobile ? 8 : 10}}>
-              <FaShieldAlt style={{color:'#348992',fontSize: isMobile ? '1.1em' : '1.3em'}} /> Crisis Management
-            </div>
-            <Image src="/hero/crisis.png" alt="Crisis Mgmt" width={600} height={500} style={{width:'100%',height:'78%',objectFit:'cover',borderRadius:'0 0 18px 18px',marginTop:0}} draggable={false} />
-          </Card>
-          {/* Slide 3: Corporate Communications */}
-          <Card href="/services/corporate-communications" style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'flex-start',background:'rgba(255,255,255,0.95)',padding:0,overflow:'hidden',boxShadow:'0 4px 20px rgba(0,0,0,0.08)'}}>
-            <div style={{width:'100%',padding: isMobile ? '12px 0 6px 14px' : '16px 0 8px 18px',textAlign:'left',color:'#348992',fontWeight:700,letterSpacing:0.3,fontSize: isMobile ? '0.95rem' : '1.1rem',display:'flex',alignItems:'center',gap: isMobile ? 8 : 10}}>
-              <FaBuilding style={{color:'#348992',fontSize: isMobile ? '1.1em' : '1.3em'}} /> Corporate Communications
-            </div>
-            <Image src="/hero/corporate.png" alt="Corporate Comm" width={600} height={500} style={{width:'100%',height:'78%',objectFit:'cover',borderRadius:'0 0 18px 18px',marginTop:0}} draggable={false} />
-          </Card>
-          {/* Slide 4: Influencer Management */}
-          <Card href="/services/digital-media" style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'flex-start',background:'rgba(255,255,255,0.95)',padding:0,overflow:'hidden',boxShadow:'0 4px 20px rgba(0,0,0,0.08)'}}>
-            <div style={{width:'100%',padding: isMobile ? '12px 0 6px 14px' : '16px 0 8px 18px',textAlign:'left',color:'#348992',fontWeight:700,letterSpacing:0.3,fontSize: isMobile ? '0.95rem' : '1.1rem',display:'flex',alignItems:'center',gap: isMobile ? 8 : 10}}>
-              <FaLaptop style={{color:'#348992',fontSize: isMobile ? '1.1em' : '1.3em'}} /> Influencer Management
-            </div>
-            <Image src="/hero/digital.png" alt="Influencer Management" width={600} height={500} style={{width:'100%',height:'78%',objectFit:'cover',borderRadius:'0 0 18px 18px',marginTop:0}} draggable={false} />
-          </Card>
-          {/* Slide 5: Specialized Services */}
-          <Card href="/services/specialized-services" style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'flex-start',background:'rgba(255,255,255,0.95)',padding:0,overflow:'hidden',boxShadow:'0 4px 20px rgba(0,0,0,0.08)'}}>
-            <div style={{width:'100%',padding: isMobile ? '12px 0 6px 14px' : '16px 0 8px 18px',textAlign:'left',color:'#348992',fontWeight:700,letterSpacing:0.3,fontSize: isMobile ? '0.95rem' : '1.1rem',display:'flex',alignItems:'center',gap: isMobile ? 8 : 10}}>
-              <FaBullseye style={{color:'#348992',fontSize: isMobile ? '1.1em' : '1.3em'}} /> Specialized Services
-            </div>
-            <Image src="/hero/spl.png" alt="Specialized Services" width={600} height={500} style={{width:'100%',height:'78%',objectFit:'cover',borderRadius:'0 0 18px 18px',marginTop:0}} draggable={false} />
-          </Card>
-        </CardSwap>
+          <Image
+            src="/decor/arc-stack.svg"
+            alt=""
+            aria-hidden
+            width={240}
+            height={130}
+            className="pointer-events-none absolute -top-6 right-0 hidden w-40 opacity-60 lg:block"
+          />
+          <figure className="border-l-2 border-rose-brand pl-6 lg:col-span-5">
+            <blockquote className="font-display text-xl italic leading-snug text-ink sm:text-2xl">
+              &ldquo;We make the right impact.&rdquo;
+            </blockquote>
+            <figcaption className="mt-2 text-sm text-ink-faint">
+              The promise behind every mandate we take on
+            </figcaption>
+          </figure>
+
+          <dl className="flex flex-wrap gap-x-14 gap-y-8 lg:col-span-7 lg:justify-end">
+            {stats.map((stat) => (
+              <div key={stat.label}>
+                <dt className="sr-only">{stat.label}</dt>
+                <dd className="font-display text-4xl tracking-tight text-ink lg:text-[2.75rem]">
+                  <CountUp value={stat.value} suffix={stat.suffix} suffixClassName="text-rose-brand" />
+                </dd>
+                <dd className="mt-1 max-w-[9rem] text-sm leading-snug text-ink-soft">
+                  {stat.label}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </motion.div>
+
+        {/* Credentials strip */}
+        <motion.div
+          {...enter(0.85)}
+          className="flex flex-col gap-6 border-t border-line py-8 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <p className="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.2em] text-ink-faint">
+            <Image
+              src="/decor/swoosh-rose.svg"
+              alt=""
+              aria-hidden
+              width={200}
+              height={110}
+              className="h-3 w-auto opacity-70"
+            />
+            Credentials
+          </p>
+          <div className="flex flex-wrap items-center gap-x-10 gap-y-4">
+            {credentials.map((c) => (
+              <div key={c.alt} className="flex items-center gap-3">
+                <Image
+                  src={c.src}
+                  alt={c.alt}
+                  width={44}
+                  height={44}
+                  className="h-9 w-auto object-contain grayscale transition duration-300 hover:grayscale-0"
+                />
+                <span className="text-sm text-ink-soft">{c.note}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
       </div>
-    </div>
-  </div>
+    </section>
   );
 };
 

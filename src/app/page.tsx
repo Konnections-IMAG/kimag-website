@@ -1,15 +1,15 @@
 'use client';
-import { useEffect } from "react";
-import { useLenis } from "../hooks/useLenis";
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import { OurServices } from "./components/Services";
-import { projects } from "./components/text/Services";
-import AboutUs from "./components/AboutUs";
-import CaseStudies from "./components/CaseStudies";
-import ContactUs from "./components/ContactUs";
-import { Footer } from "./components/Footer";
-
+import { useEffect } from 'react';
+import { useLenis } from '../hooks/useLenis';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import AboutUs from './components/AboutUs';
+import { OurServices } from './components/Services';
+import { projects } from './components/text/Services';
+import CaseStudies from './components/CaseStudies';
+import AwardsCarousel from './components/AwardsCarousel';
+import ContactUs from './components/ContactUs';
+import { Footer } from './components/Footer';
 
 export default function Home() {
   const { scrollToElement } = useLenis();
@@ -20,11 +20,11 @@ export default function Home() {
     if (hash) {
       const element = document.getElementById(hash.substring(1));
       if (element) {
-        // Add a delay to ensure Lenis is initialized and page is rendered
         setTimeout(() => {
-          // Measure header height to compute accurate offset
-          const nav = document.querySelector('nav');
-          const measuredOffset = nav ? -(nav.getBoundingClientRect().height + 16) : (window.innerWidth < 1024 ? -72 : -96);
+          const nav = document.querySelector('header');
+          const measuredOffset = nav
+            ? -(nav.getBoundingClientRect().height + 16)
+            : -88;
           const opts = {
             duration: 1.5,
             easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -32,7 +32,7 @@ export default function Home() {
           } as const;
           scrollToElement(element, opts);
 
-          // Re-apply once after images/fonts settle to avoid layout shift issues (mobile)
+          // Re-apply once after images/fonts settle to avoid layout shift issues
           setTimeout(() => {
             scrollToElement(element, opts);
           }, 700);
@@ -43,13 +43,16 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar/>
-      <Hero/>
-      <AboutUs/>
-      <OurServices items={projects}/>
-      <CaseStudies/>
-      <ContactUs/>
-      <Footer/>
+      <Navbar />
+      <main>
+        <Hero />
+        <AboutUs />
+        <OurServices items={projects} />
+        <CaseStudies />
+        <AwardsCarousel />
+        <ContactUs />
+      </main>
+      <Footer />
     </div>
   );
 }
