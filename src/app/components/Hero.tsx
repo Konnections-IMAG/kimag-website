@@ -157,7 +157,7 @@ const Hero: React.FC = () => {
             />
             <ImageReveal from="bottom" delay={0.35} radius="1rem" className="relative">
               <Image
-                src="/hero/PR.png"
+                src="/hero-v2/PR.webp"
                 alt="Executive reading business press coverage in print"
                 width={880}
                 height={1100}
@@ -175,7 +175,7 @@ const Hero: React.FC = () => {
               <ImageReveal from="left" delay={0.75} radius="0.75rem">
                 <div className="border-4 border-white">
                   <Image
-                    src="/hero/digital.png"
+                    src="/hero-v2/digital.webp"
                     alt="Creator sharing a brand story with her audience"
                     width={520}
                     height={390}

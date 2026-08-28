@@ -35,13 +35,13 @@ export const servicePages: ServicePageContent[] = [
     title: 'Public Relations & Reputation Management',
     intro:
       'Earned credibility is the hardest kind to buy and the most valuable kind to hold. We build, protect, and enhance reputations through strategic public relations — the disciplined work of being known for the right things.',
-    image: '/hero/PR.png',
+    image: '/hero-v2/PR.webp',
     imageAlt: 'Public relations counsel in session',
     capabilities: [
       {
         title: 'Media Relations & Strategic Counsel',
         body: 'Strong relationships with key media, and messaging that earns its place in the story your audiences are already reading.',
-        image: '/hero/corporate.png',
+        image: '/hero-v2/corporate.webp',
       },
       {
         title: 'Brand Building & Positioning',
@@ -77,13 +77,13 @@ export const servicePages: ServicePageContent[] = [
     title: 'Crisis Management & Communications',
     intro:
       'When reputation is on the line, minutes matter and tone matters more. We prepare organisations before trouble arrives, stand beside them while it unfolds, and rebuild trust once it passes — available around the clock.',
-    image: '/hero/crisis.png',
+    image: '/hero-v2/crisis.webp',
     imageAlt: 'Crisis response team at work',
     capabilities: [
       {
         title: 'Crisis Communication Planning',
         body: 'Comprehensive strategies and protocols developed before issues arise, so response is rapid and rehearsed.',
-        image: '/hero/crisis.png',
+        image: '/hero-v2/crisis.webp',
       },
       {
         title: '24/7 Crisis Response',
@@ -98,7 +98,7 @@ export const servicePages: ServicePageContent[] = [
       {
         title: 'Media Training & Spokesperson Development',
         body: 'Executives prepared for the hardest interviews they will ever give — before they have to give them.',
-        image: '/hero/spl.jpg',
+        image: '/hero-v2/spl-training.webp',
       },
       {
         title: 'Stakeholder Communication Management',
@@ -136,7 +136,7 @@ export const servicePages: ServicePageContent[] = [
     title: 'Financial Communications & Investor Relations',
     intro:
       'Markets reward clarity and punish surprise. We help listed companies, IPO candidates, and their leadership communicate with investors, analysts, and regulators — accurately, compliantly, and persuasively.',
-    image: '/hero/finance.png',
+    image: '/hero-v2/finance.webp',
     imageAlt: 'Investor relations briefing',
     capabilities: [
       {
@@ -147,7 +147,7 @@ export const servicePages: ServicePageContent[] = [
       {
         title: 'Investor Relations & Outreach',
         body: 'Strategic programmes that build durable relationships with institutional and retail investors alike.',
-        image: '/hero/investor.png',
+        image: '/hero-v2/investor.webp',
       },
       {
         title: 'Analyst & Fund Manager Relations',
@@ -178,7 +178,7 @@ export const servicePages: ServicePageContent[] = [
     title: 'Digital Media & Social Strategy',
     intro:
       'Digital reputation compounds — every post, campaign, and reply either builds equity or spends it. We bring editorial judgement to digital channels: content, community, influence, and measurement working as one.',
-    image: '/hero/digital.png',
+    image: '/hero-v2/digital.webp',
     imageAlt: 'Digital and social media strategy',
     capabilities: [
       {
@@ -220,7 +220,7 @@ export const servicePages: ServicePageContent[] = [
     title: 'Corporate Communications',
     intro:
       'A corporate story is told as much inside the organisation as outside it. We align executive voice, employee communication, and public positioning so that what your company says — and what it is — stay the same thing.',
-    image: '/hero/corporate.png',
+    image: '/hero-v2/corporate.webp',
     imageAlt: 'Corporate communications planning',
     capabilities: [
       {
@@ -231,7 +231,7 @@ export const servicePages: ServicePageContent[] = [
       {
         title: 'Executive Communications',
         body: 'Strategic positioning and communication support for C-level executives and senior leadership teams.',
-        image: '/hero/corporate.png',
+        image: '/hero-v2/corporate.webp',
       },
       {
         title: 'CSR Communication',
@@ -279,7 +279,7 @@ export const servicePages: ServicePageContent[] = [
     title: 'Specialized Services & Consulting',
     intro:
       'Some communication challenges fit no template. For those, we offer research, training, measurement, and creative counsel — the specialist depth behind our integrated practice, available on its own terms.',
-    image: '/hero/spl.png',
+    image: '/hero-v2/spl.webp',
     imageAlt: 'Specialist communications consulting',
     capabilities: [
       {
@@ -310,7 +310,7 @@ export const servicePages: ServicePageContent[] = [
       {
         title: 'Communication Audit & Strategy',
         body: 'In-depth audits and strategic planning that make an organisation’s whole communication function stronger.',
-        image: '/hero/spl.jpg',
+        image: '/hero-v2/spl-training.webp',
       },
     ],
     process: defaultProcess,

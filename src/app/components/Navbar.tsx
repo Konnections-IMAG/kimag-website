@@ -96,7 +96,7 @@ const Navbar: React.FC = () => {
         {/* Brand */}
         <Link href="/" aria-label="Konnections IMAG — home" className="flex shrink-0 items-center">
           <Image
-            src="/logo-big.png"
+            src="/logo-big.webp"
             alt="Konnections IMAG"
             width={210}
             height={58}

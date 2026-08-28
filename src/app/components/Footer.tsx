@@ -45,7 +45,7 @@ export const Footer = () => {
         {/* Closing statement */}
         {/* <div className="flex flex-col items-start gap-8 border-b border-white/10 py-16 lg:flex-row lg:items-end lg:justify-between">
           <Image
-            src="/logo-big.png"
+            src="/logo-big.webp"
             alt="Konnections IMAG — we make the right impact"
             width={630}
             height={174}

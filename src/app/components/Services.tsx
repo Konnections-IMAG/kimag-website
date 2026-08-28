@@ -39,12 +39,12 @@ const positioning: Record<string, string> = {
 
 /** Editorial photograph shown in the cursor-following preview, keyed by route. */
 const previews: Record<string, string> = {
-  '/services/public-relations': '/hero/PR.png',
-  '/services/crisis-management': '/hero/crisis.png',
-  '/services/financial-communications': '/hero/finance.png',
-  '/services/digital-media': '/hero/digital.png',
-  '/services/corporate-communications': '/hero/corporate.png',
-  '/services/specialized-services': '/hero/spl.png',
+  '/services/public-relations': '/hero-v2/PR.webp',
+  '/services/crisis-management': '/hero-v2/crisis.webp',
+  '/services/financial-communications': '/hero-v2/finance.webp',
+  '/services/digital-media': '/hero-v2/digital.webp',
+  '/services/corporate-communications': '/hero-v2/corporate.webp',
+  '/services/specialized-services': '/hero-v2/spl.webp',
 };
 
 const easing = [0.22, 1, 0.36, 1] as const;

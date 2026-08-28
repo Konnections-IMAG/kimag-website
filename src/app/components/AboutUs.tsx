@@ -114,7 +114,7 @@ const AboutUs: React.FC = () => {
             <Parallax speed={22}>
               <ImageReveal from="left" radius="1rem">
                 <Image
-                  src="/hero/investor.png"
+                  src="/hero-v2/investor.webp"
                   alt="Consultants working through a client mandate together"
                   width={1200}
                   height={750}
@@ -131,7 +131,7 @@ const AboutUs: React.FC = () => {
             <Parallax speed={-14}>
               <ImageReveal from="bottom" delay={0.15} radius="1rem">
                 <Image
-                  src="/hero/corporate.png"
+                  src="/hero-v2/corporate.webp"
                   alt="Spokesperson addressing the press from the podium"
                   width={800}
                   height={1000}
