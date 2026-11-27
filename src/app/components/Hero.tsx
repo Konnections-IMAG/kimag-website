@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
-import { smoothScrollTo } from '../../lib/smoothScroll';
+import { scrollOnClick } from '../../lib/smoothScroll';
 import ImageReveal from './ui/ImageReveal';
 import Parallax from './ui/Parallax';
 import CountUp from './ui/CountUp';
@@ -79,8 +79,9 @@ const Hero: React.FC = () => {
         <div className="grid gap-14 py-16 md:py-24 lg:grid-cols-12 lg:gap-8 lg:py-28">
           {/* Editorial statement */}
           <div className="lg:col-span-6 lg:pr-6">
-            <motion.p {...enter(0.05)} className="eyebrow">
+            <motion.p {...enter(0.05)} className="eyebrow flex-wrap">
               Public relations · Branding · Reputation
+              <span className="basis-full pl-[2.375rem] text-ink-faint">Hyderabad · Pan-India</span>
             </motion.p>
 
             <h1 className="mt-7 font-display text-[2.75rem] leading-[1.08] tracking-[-0.015em] text-ink sm:text-6xl lg:text-[4.25rem]">
@@ -129,19 +130,21 @@ const Hero: React.FC = () => {
             </motion.p>
 
             <motion.div {...enter(0.62)} className="mt-10 flex flex-wrap items-center gap-4">
-              <button
-                onClick={() => smoothScrollTo('#contact', { duration: 1.4, offset: -80 })}
+              <a
+                href="#contact"
+                onClick={(e) => scrollOnClick(e, '#contact')}
                 className="btn-primary"
               >
                 Start a conversation
                 <ArrowRight className="h-4 w-4" />
-              </button>
-              <button
-                onClick={() => smoothScrollTo('#services', { duration: 1.2, offset: -80 })}
+              </a>
+              <a
+                href="#services"
+                onClick={(e) => scrollOnClick(e, '#services')}
                 className="btn-outline"
               >
                 Explore our practice
-              </button>
+              </a>
             </motion.div>
           </div>
 
@@ -162,6 +165,7 @@ const Hero: React.FC = () => {
                 width={880}
                 height={1100}
                 priority
+                fetchPriority="high"
                 sizes="(min-width: 1024px) 40vw, 92vw"
                 className="aspect-[4/5] w-full object-cover"
               />

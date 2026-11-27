@@ -17,24 +17,9 @@ import { TriangleBlob } from './ui/Decor';
 
 type ServiceItem = {
   title: string;
-  description: string[];
+  summary: string;
+  capabilities: string[];
   link: string;
-};
-
-/** One-line positioning statement per practice, keyed by route. */
-const positioning: Record<string, string> = {
-  '/services/public-relations':
-    'Earned credibility, built through the media and stakeholders your audiences already trust.',
-  '/services/crisis-management':
-    'Calm, decisive counsel when reputation is on the line before, during, and after the storm.',
-  '/services/financial-communications':
-    'Clear, compliant communication for listed companies, IPOs, and the investors who back them.',
-  '/services/digital-media':
-    'Strategy-led digital presence. Content, community, and influence that compound over time.',
-  '/services/corporate-communications':
-    'Executive voice, employee alignment, and thought leadership that carries the corporate story.',
-  '/services/specialized-services':
-    'Research, training, measurement, and creative counsel for communication challenges that fit no template.',
 };
 
 /** Editorial photograph shown in the cursor-following preview, keyed by route. */
@@ -137,12 +122,12 @@ export const OurServices: React.FC<{ items: ServiceItem[] }> = ({ items }) => {
                     {service.title}
                   </h3>
                   <p className="mt-3 max-w-md leading-relaxed text-ink-soft">
-                    {positioning[service.link]}
+                    {service.summary}
                   </p>
                 </div>
 
                 <ul className="space-y-2 self-center lg:col-span-5">
-                  {service.description.slice(0, 4).map((capability) => (
+                  {service.capabilities.map((capability) => (
                     <li
                       key={capability}
                       className="flex items-baseline gap-3 text-[0.9375rem] text-ink-soft"

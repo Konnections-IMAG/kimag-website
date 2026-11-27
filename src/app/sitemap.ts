@@ -1,58 +1,33 @@
 import { MetadataRoute } from 'next'
+import { servicePages } from './components/text/servicePages'
+import { SITE_URL } from './lib/site'
+
+// Bump a date only when that page's content actually changes.
+const CONTENT_UPDATED = {
+  home: '2026-11-27',
+  services: '2026-11-27',
+  privacy: '2026-11-27',
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://www.konnectionsimag.com'
-  const currentDate = new Date()
-  
-  // Main pages
-  const routes = [
+  return [
     {
-      url: baseUrl,
-      lastModified: currentDate,
-      changeFrequency: 'monthly' as const,
+      url: SITE_URL,
+      lastModified: CONTENT_UPDATED.home,
+      changeFrequency: 'monthly',
       priority: 1,
     },
-  ]
-  
-  // Service pages
-  const servicePages = [
-    'public-relations',
-    'crisis-management',
-    'digital-media',
-    'corporate-communications',
-    'financial-communications',
-    'specialized-services'
-  ]
-  
-  const serviceRoutes = servicePages.map(service => ({
-    url: `${baseUrl}/services/${service}`,
-    lastModified: currentDate,
-    changeFrequency: 'monthly' as const,
-    priority: 0.8,
-  }))
-  
-  // Main services page
-  const servicesIndexRoute = {
-    url: `${baseUrl}/services`,
-    lastModified: currentDate,
-    changeFrequency: 'monthly' as const,
-    priority: 0.9,
-  }
-  
-  // Add blog and other potential pages here in the future
-  const otherRoutes = [
+    ...servicePages.map((page) => ({
+      url: `${SITE_URL}/services/${page.slug}`,
+      lastModified: CONTENT_UPDATED.services,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    })),
     {
-      url: `${baseUrl}/contact`,
-      lastModified: currentDate,
-      changeFrequency: 'yearly' as const,
-      priority: 0.7,
-    }
-  ]
-
-  return [
-    ...routes,
-    servicesIndexRoute,
-    ...serviceRoutes,
-    ...otherRoutes
+      url: `${SITE_URL}/privacy`,
+      lastModified: CONTENT_UPDATED.privacy,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
   ]
 }

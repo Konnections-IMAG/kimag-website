@@ -1,5 +1,26 @@
 import type { NextConfig } from "next";
 
+const isDev = process.env.NODE_ENV === 'development';
+
+// 'unsafe-inline' is required for Next.js's inline bootstrap scripts; a
+// nonce-based policy would force every page to render dynamically.
+// The Cloudflare hosts cover Turnstile and Cloudflare Web Analytics.
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://challenges.cloudflare.com https://static.cloudflareinsights.com`,
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob:",
+  "font-src 'self' data:",
+  `connect-src 'self' https://cloudflareinsights.com${isDev ? ' ws:' : ''}`,
+  'frame-src https://challenges.cloudflare.com',
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "frame-ancestors 'none'",
+].join('; ');
+
+const PRODUCTION_HOSTS = '(?:www\\.)?konnectionsimag\\.com';
+
 const nextConfig: NextConfig = {
   // Production optimizations
   poweredByHeader: false, // Remove X-Powered-By header for security
@@ -15,10 +36,6 @@ const nextConfig: NextConfig = {
   // source images are pre-sized and encoded to WebP in /public instead.
   images: {
     unoptimized: true,
-    remotePatterns: [
-      { protocol: 'https', hostname: 'images.unsplash.com' },
-      { protocol: 'https', hostname: 'www.konnectionsimag.com' },
-    ],
   },
   
   // Performance optimizations
@@ -26,6 +43,28 @@ const nextConfig: NextConfig = {
   //   optimizeCss: true, // Disabled due to critters dependency issue
   // },
   
+  // One canonical origin: https://www. Limited to the production hosts so that
+  // local development and preview deployments are unaffected.
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [
+          { type: 'header', key: 'x-forwarded-proto', value: 'http' },
+          { type: 'host', value: PRODUCTION_HOSTS },
+        ],
+        destination: 'https://www.konnectionsimag.com/:path*',
+        permanent: true,
+      },
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'konnectionsimag\\.com' }],
+        destination: 'https://www.konnectionsimag.com/:path*',
+        permanent: true,
+      },
+    ];
+  },
+
   // Security headers
   async headers() {
     return [
@@ -40,10 +79,12 @@ const nextConfig: NextConfig = {
             key: 'X-Frame-Options',
             value: 'DENY',
           },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block',
-          },
+          // The legacy XSS auditor is deprecated and can itself cause issues.
+          { key: 'X-XSS-Protection', value: '0' },
+          { key: 'Content-Security-Policy', value: contentSecurityPolicy },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+          { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' },
         ],
       },
     ];

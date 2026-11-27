@@ -5,28 +5,26 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Facebook, Instagram, Linkedin, Mail } from 'lucide-react';
 import { TriangleBlob } from './ui/Decor';
-
-const services = [
-  { name: 'Public Relations & Reputation', href: '/services/public-relations' },
-  { name: 'Crisis Management', href: '/services/crisis-management' },
-  { name: 'Financial Communications', href: '/services/financial-communications' },
-  { name: 'Digital Media & Social', href: '/services/digital-media' },
-  { name: 'Corporate Communications', href: '/services/corporate-communications' },
-  { name: 'Specialized Services', href: '/services/specialized-services' },
-];
+import {
+  ADDRESS,
+  EMAIL,
+  PHONE_DISPLAY,
+  PHONE_HREF,
+  SECTION_LINKS,
+  SERVICE_LINKS as services,
+  SOCIAL_URLS,
+} from '../lib/site';
 
 const company = [
-  { name: 'About', href: '/#about' },
-  { name: 'Our practice', href: '/#services' },
-  { name: 'Impact', href: '/#impact' },
+  ...SECTION_LINKS.map((l) => ({ name: l.name, href: `/${l.hash}` })),
   { name: 'Contact', href: '/#contact' },
 ];
 
 const socials = [
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/konnectionsimag/posts/?feedView=all', icon: Linkedin },
-  { label: 'Instagram', href: 'https://www.instagram.com/konnections.imag/', icon: Instagram },
-  { label: 'Facebook', href: 'https://www.facebook.com/Konnections/', icon: Facebook },
-  { label: 'Email', href: 'mailto:info@konnectionsimag.com', icon: Mail },
+  { label: 'LinkedIn', href: SOCIAL_URLS.linkedin, icon: Linkedin },
+  { label: 'Instagram', href: SOCIAL_URLS.instagram, icon: Instagram },
+  { label: 'Facebook', href: SOCIAL_URLS.facebook, icon: Facebook },
+  { label: 'Email', href: `mailto:${EMAIL}`, icon: Mail },
 ];
 
 export const Footer = () => {
@@ -72,14 +70,14 @@ export const Footer = () => {
           <div className="max-w-xs">
             <p className="text-sm leading-relaxed text-white/60">
               An integrated communications consultancy for public relations,
-              crisis counsel, and strategic storytelling helping organisations
+              crisis counsel, and strategic storytelling — helping organisations
               build reputations that endure.
             </p>
           </div>
 
           <nav aria-label="Services">
             <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-white/40">
-              Practice
+              Services
             </h3>
             <ul className="mt-5 space-y-3">
               {services.map((s) => (
@@ -118,20 +116,22 @@ export const Footer = () => {
               Visit
             </h3>
             <address className="mt-5 text-[0.9375rem] not-italic leading-relaxed text-white/70">
-              6-3-596/102 F,2nd Floor, Road, 1,<br />Masab Tank - Banjara Hills Rd, Naveen Nagar ,<br /> Hyderabad, Telangana 500034
+              {ADDRESS.street},
+              <br />
+              {ADDRESS.city}, {ADDRESS.region} {ADDRESS.postalCode}
             </address>
             <div className="mt-4 space-y-1.5">
               <a
-                href="tel:+917032939360"
+                href={PHONE_HREF}
                 className="block text-[0.9375rem] text-white/70 transition-colors duration-200 hover:text-white"
               >
-                +91 70329 39360
+                {PHONE_DISPLAY}
               </a>
               <a
-                href="mailto:info@konnectionsimag.com"
+                href={`mailto:${EMAIL}`}
                 className="block text-[0.9375rem] text-white/70 transition-colors duration-200 hover:text-white"
               >
-                info@konnectionsimag.com
+                {EMAIL}
               </a>
             </div>
           </div>
@@ -143,12 +143,9 @@ export const Footer = () => {
             © {new Date().getFullYear()} Konnections IMAG. All rights reserved.
           </p>
           <div className="flex items-center gap-7">
-            {/* <Link href="/privacy-policy" className="transition-colors hover:text-white">
-              Privacy Policy
+            <Link href="/privacy" className="transition-colors hover:text-white">
+              Privacy notice
             </Link>
-            <Link href="/terms-of-service" className="transition-colors hover:text-white">
-              Terms of Service
-            </Link> */}
             <div className="flex items-center gap-3">
             {socials.map((s) => (
               <a
