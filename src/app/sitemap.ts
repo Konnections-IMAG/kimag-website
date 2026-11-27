@@ -4,9 +4,9 @@ import { SITE_URL } from './lib/site'
 
 // Bump a date only when that page's content actually changes.
 const CONTENT_UPDATED = {
-  home: '2026-11-27',
+  home: '2026-11-28',
   services: '2026-11-27',
-  privacy: '2026-11-27',
+  privacy: '2026-11-28',
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {

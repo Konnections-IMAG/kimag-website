@@ -13,12 +13,23 @@ export const metadata = pageMetadata({
 
 const sections: { heading: string; body: React.ReactNode }[] = [
   {
+    heading: 'The contact form',
+    body: (
+      <p>
+        The contact form doesn&apos;t send or store what you type. It prepares an email in your
+        browser. If you choose Open in Gmail, the draft text is passed to Google to open it; if you
+        choose your email app, it is passed to that app. We receive your details only when you send
+        the email from your own account.
+      </p>
+    ),
+  },
+  {
     heading: 'What we collect',
     body: (
       <p>
-        When you use the contact form we collect your name, email address, the subject and message
-        you write, and whether you asked for case studies. Please don&apos;t include sensitive
-        personal information in your message. Like most websites, our hosting provider also
+        When you email us we receive your email address, your name and whatever else you include,
+        such as the subject, your message and whether you asked for case studies. Please don&apos;t
+        include sensitive personal information. Like most websites, our hosting provider also
         processes technical data such as your IP address to deliver the site and protect it from
         abuse.
       </p>
@@ -28,10 +39,9 @@ const sections: { heading: string; body: React.ReactNode }[] = [
     heading: 'Why we use it',
     body: (
       <p>
-        We use your details only to respond to your enquiry, send the material you asked for,
-        confirm that we received your message and keep the form secure from spam and misuse. By
-        submitting the form you consent to this use. We do not sell your personal data or add you
-        to a marketing list.
+        We use your details only to respond to your enquiry and send the material you asked for. By
+        emailing us you consent to this use. We do not sell your personal data or add you to a
+        marketing list.
       </p>
     ),
   },
@@ -39,10 +49,9 @@ const sections: { heading: string; body: React.ReactNode }[] = [
     heading: 'Who processes it',
     body: (
       <p>
-        This website runs on Cloudflare, which processes traffic data, applies rate limits and may
-        run a bot check on the contact form. Enquiries are delivered by email using Google&apos;s
-        mail service. These providers may process data outside India. We may also disclose
-        information where the law requires it.
+        This website runs on Cloudflare, which processes traffic data. Our email is provided by
+        Google, and your own email provider handles the message you send. These providers may
+        process data outside India. We may also disclose information where the law requires it.
       </p>
     ),
   },
@@ -90,7 +99,7 @@ export default function PrivacyPage() {
           <h1 className="font-display text-4xl leading-tight tracking-[-0.01em] text-ink sm:text-5xl">
             Privacy notice
           </h1>
-          <p className="mt-4 text-sm text-ink-faint">Last updated: 27 November 2026</p>
+          <p className="mt-4 text-sm text-ink-faint">Last updated: 28 November 2026</p>
           <p className="mt-8 leading-relaxed text-ink-soft">
             This notice explains how Konnections IMAG handles personal data collected through this
             website.
