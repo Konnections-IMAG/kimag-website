@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { AnimatePresence, motion } from 'framer-motion';
 import {
   Mail,
   Phone,
@@ -11,12 +10,11 @@ import {
   Clock,
   Siren,
   ArrowRight,
-  CheckCircle,
-  AlertCircle,
 } from 'lucide-react';
 import Reveal from './ui/Reveal';
 import FaqList from './FaqList';
-import TurnstileWidget, { TURNSTILE_SITE_KEY } from './TurnstileWidget';
+import EmailDraftPanel from './EmailDraftPanel';
+import { buildDraft, MESSAGE_MAX_LENGTH, type EmailDraft } from '@/lib/emailDraft';
 import { faqs } from './text/faqs';
 import { ADDRESS_LINE, EMAIL, OFFICE_HOURS, PHONE_DISPLAY, PHONE_HREF } from '../lib/site';
 import { TriangleBlob } from './ui/Decor';
@@ -58,15 +56,13 @@ const inputClasses =
 const ContactUs: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [wantsCaseStudies, setWantsCaseStudies] = useState(false);
-  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
-  const [errorMessage, setErrorMessage] = useState('');
-  // Honeypot: hidden from people, but naive bots fill it in.
-  const [website, setWebsite] = useState('');
-  const [turnstileToken, setTurnstileToken] = useState('');
-  const [turnstileAttempt, setTurnstileAttempt] = useState(0);
+  const [draft, setDraft] = useState<EmailDraft | null>(null);
 
   useEffect(() => {
-    const handleRequest = () => setWantsCaseStudies(true);
+    const handleRequest = () => {
+      setWantsCaseStudies(true);
+      setDraft(null);
+    };
     window.addEventListener('request-case-studies', handleRequest);
     return () => window.removeEventListener('request-case-studies', handleRequest);
   }, []);
@@ -76,39 +72,23 @@ const ContactUs: React.FC = () => {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    setDraft(null); // an edited form makes the prepared draft out of date
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setFormStatus('submitting');
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          requestCaseStudies: wantsCaseStudies,
-          website,
-          turnstileToken,
-        }),
-      });
-      if (response.ok) {
-        setFormStatus('success');
-        setFormData({ name: '', email: '', subject: '', message: '' });
-        setWantsCaseStudies(false);
-        setTimeout(() => setFormStatus('idle'), 6000);
-      } else {
-        const data = await response.json().catch(() => ({}));
-        setErrorMessage(typeof data.message === 'string' ? data.message : '');
-        setFormStatus('error');
-      }
-    } catch {
-      setErrorMessage('');
-      setFormStatus('error');
-    } finally {
-      // Turnstile tokens are single use, so ask for a fresh one.
-      setTurnstileAttempt((n) => n + 1);
-    }
+    setDraft(
+      buildDraft(
+        EMAIL,
+        `Website enquiry: ${formData.subject}`,
+        [
+          ['Name', formData.name],
+          ['Email', formData.email],
+          ['Case studies requested', wantsCaseStudies ? 'Yes' : 'No'],
+        ],
+        formData.message
+      )
+    );
   };
 
   return (
@@ -188,7 +168,8 @@ const ContactUs: React.FC = () => {
             >
               <h3 className="font-display text-2xl text-ink">Tell us about your brief</h3>
               <p className="mt-2 text-sm text-ink-soft">
-                We reply to every enquiry within one business day.
+                Fill this in and we&apos;ll prepare an email for you to send. We reply to every
+                enquiry within one business day.
               </p>
 
               <div className="mt-8 grid gap-5 sm:grid-cols-2">
@@ -251,7 +232,7 @@ const ContactUs: React.FC = () => {
                 </label>
                 <textarea
                   id="contact-message"
-                  maxLength={5000}
+                  maxLength={MESSAGE_MAX_LENGTH}
                   name="message"
                   required
                   rows={5}
@@ -267,72 +248,29 @@ const ContactUs: React.FC = () => {
                   type="checkbox"
                   name="requestCaseStudies"
                   checked={wantsCaseStudies}
-                  onChange={(e) => setWantsCaseStudies(e.target.checked)}
+                  onChange={(e) => {
+                    setWantsCaseStudies(e.target.checked);
+                    setDraft(null);
+                  }}
                   className="mt-1 h-4 w-4 shrink-0 rounded border-line text-teal-brand focus:ring-teal-brand/30"
                 />
                 Request case studies and examples for my sector
               </label>
 
-              <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
-                <label htmlFor="contact-website">Website</label>
-                <input
-                  id="contact-website"
-                  name="website"
-                  type="text"
-                  tabIndex={-1}
-                  autoComplete="off"
-                  value={website}
-                  onChange={(e) => setWebsite(e.target.value)}
-                />
-              </div>
-
-              <TurnstileWidget resetSignal={turnstileAttempt} onToken={setTurnstileToken} />
-
               <p className="mt-5 text-sm text-ink-soft">
-                We use these details only to respond to your enquiry. Read our{' '}
+                This website doesn&apos;t send or store what you type. Read our{' '}
                 <Link href="/privacy" className="font-medium text-teal-deep underline">
                   privacy notice
                 </Link>
                 .
               </p>
 
-              <button
-                type="submit"
-                disabled={
-                  formStatus === 'submitting' || (!!TURNSTILE_SITE_KEY && !turnstileToken)
-                }
-                className="btn-primary mt-8 w-full disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
-              >
-                {formStatus === 'submitting' ? 'Sending…' : 'Send message'}
-                {formStatus !== 'submitting' && <ArrowRight className="h-4 w-4" />}
+              <button type="submit" className="btn-primary mt-8 w-full sm:w-auto">
+                Prepare email
+                <ArrowRight className="h-4 w-4" />
               </button>
 
-              <AnimatePresence>
-                {formStatus === 'success' && (
-                  <motion.p
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    role="status"
-                    className="mt-5 flex items-center gap-2 text-sm font-medium text-teal-deep"
-                  >
-                    <CheckCircle className="h-4 w-4" />
-                    Thank you — your message is on its way. We&apos;ll be in touch shortly.
-                  </motion.p>
-                )}
-                {formStatus === 'error' && (
-                  <motion.p
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    role="alert"
-                    className="mt-5 flex items-center gap-2 text-sm font-medium text-rose-deep"
-                  >
-                    <AlertCircle className="h-4 w-4" />
-                    {errorMessage || 'Something went wrong. Please try again, or write to us directly.'}
-                  </motion.p>
-                )}
-              </AnimatePresence>
+              {draft && <EmailDraftPanel draft={draft} />}
             </form>
           </Reveal>
         </div>

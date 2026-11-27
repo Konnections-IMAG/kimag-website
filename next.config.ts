@@ -4,15 +4,15 @@ const isDev = process.env.NODE_ENV === 'development';
 
 // 'unsafe-inline' is required for Next.js's inline bootstrap scripts; a
 // nonce-based policy would force every page to render dynamically.
-// The Cloudflare hosts cover Turnstile and Cloudflare Web Analytics.
+// The Cloudflare hosts cover Cloudflare Web Analytics.
 const contentSecurityPolicy = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://challenges.cloudflare.com https://static.cloudflareinsights.com`,
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://static.cloudflareinsights.com`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self' data:",
   `connect-src 'self' https://cloudflareinsights.com${isDev ? ' ws:' : ''}`,
-  'frame-src https://challenges.cloudflare.com',
+  "frame-src 'none'",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
