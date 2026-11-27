@@ -1,13 +1,10 @@
-import nodemailer from 'nodemailer';
 import { EMAIL, PHONE_DISPLAY, SITE_URL } from '@/app/lib/site';
 import { escapeHtml } from './contactGuard';
+import { createGmailTransport } from './smtp';
 
-const transporter = nodemailer.createTransport({
-  service: 'Gmail',
-  auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS,
-  },
+const transporter = createGmailTransport({
+  user: process.env.MAIL_USER,
+  pass: process.env.MAIL_PASS,
 });
 
 export async function sendContactFormEmail({
