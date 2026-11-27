@@ -38,4 +38,26 @@ export const smoothScrollTo = (target: string | HTMLElement | number, options?: 
   }
 };
 
-// Removed unused scrollToTop and scrollToSection exports
+/**
+ * Click handler for real `#section` links: smooth-scrolls on a plain click and
+ * leaves modified clicks (new tab, new window) to the browser.
+ */
+export const scrollOnClick = (
+  event: {
+    button: number;
+    metaKey: boolean;
+    ctrlKey: boolean;
+    shiftKey: boolean;
+    altKey: boolean;
+    preventDefault: () => void;
+  },
+  hash: string,
+  offset = -80
+) => {
+  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+    return;
+  }
+  event.preventDefault();
+  smoothScrollTo(hash, { duration: 1.2, offset });
+  window.history.replaceState(null, '', hash);
+};

@@ -204,9 +204,14 @@ export default function AwardsCarousel() {
             className="flex items-start"
             style={{ transformStyle: 'preserve-3d', willChange: 'transform' }}
           >
-            {loop.map((award, i) => (
+            {loop.map((award, i) => {
+              // The second pass only exists for the seamless wrap, so it is
+              // hidden from screen readers and carries no alt text.
+              const isClone = i >= awards.length;
+              return (
               <article
                 key={`${award.image}-${i}`}
+                aria-hidden={isClone || undefined}
                 ref={(el) => {
                   cardRefs.current[i] = el;
                 }}
@@ -216,13 +221,16 @@ export default function AwardsCarousel() {
                 <div className="relative aspect-[4/5] overflow-hidden rounded-t-2xl bg-mist">
                   <Image
                     src={award.image}
-                    alt={`${award.title}${award.agency ? ` — ${award.agency}` : ''}${
-                      award.year ? ` (${award.year})` : ''
-                    }`}
-                    fill
+                    alt={
+                      isClone
+                        ? ''
+                        : [award.title, award.agency, award.year].filter(Boolean).join(', ')
+                    }
+                    width={576}
+                    height={720}
                     draggable={false}
                     sizes="(min-width: 640px) 288px, 248px"
-                    className="object-cover"
+                    className="absolute inset-0 h-full w-full object-cover"
                   />
                 </div>
                 <div className="px-5 py-5">
@@ -239,7 +247,8 @@ export default function AwardsCarousel() {
                   )}
                 </div>
               </article>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>

@@ -14,24 +14,28 @@ import {
   Factory,
   Zap,
   Clapperboard,
+  type LucideIcon,
 } from 'lucide-react';
 import Reveal from './ui/Reveal';
 import TextReveal from './ui/TextReveal';
 import { TriangleBlob } from './ui/Decor';
-import { smoothScrollTo } from '../../lib/smoothScroll';
+import { scrollOnClick, smoothScrollTo } from '../../lib/smoothScroll';
+import { INDUSTRIES } from '../lib/site';
 
-const industries = [
-  { name: 'Hospitality', icon: Hotel },
-  { name: 'Healthcare', icon: HeartPulse },
-  { name: 'Technology', icon: Cpu },
-  { name: 'Financial Services', icon: Landmark },
-  { name: 'Retail & Consumer', icon: ShoppingBag },
-  { name: 'Education', icon: GraduationCap },
-  { name: 'Real Estate', icon: Building2 },
-  { name: 'Manufacturing', icon: Factory },
-  { name: 'Energy & Infrastructure', icon: Zap },
-  { name: 'Media & Entertainment', icon: Clapperboard },
-];
+const industryIcons: Record<(typeof INDUSTRIES)[number], LucideIcon> = {
+  Hospitality: Hotel,
+  Healthcare: HeartPulse,
+  Technology: Cpu,
+  'Financial Services': Landmark,
+  'Retail & Consumer': ShoppingBag,
+  Education: GraduationCap,
+  'Real Estate': Building2,
+  Manufacturing: Factory,
+  'Energy & Infrastructure': Zap,
+  'Media & Entertainment': Clapperboard,
+};
+
+const industries = INDUSTRIES.map((name) => ({ name, icon: industryIcons[name] }));
 
 export default function CaseStudies() {
   return (
@@ -57,7 +61,7 @@ export default function CaseStudies() {
               className="pointer-events-none absolute -left-2 -top-10 w-16 opacity-60"
             />
             <Reveal>
-              <p className="eyebrow">Impact &amp; recognition</p>
+              <p className="eyebrow">Recognition</p>
             </Reveal>
             <h2
               id="impact-heading"
@@ -68,8 +72,8 @@ export default function CaseStudies() {
           </div>
           <Reveal delay={0.15} className="flex flex-col justify-end lg:col-span-6 lg:col-start-7">
             <p className="text-lg leading-relaxed text-ink-soft">
-              Much of our best work is confidential by design . Reputations are
-              protected, crises averted, narratives repositioned without
+              Much of our best work is confidential by design. Reputations are
+              protected, crises averted, narratives repositioned — without
               fanfare. What we can share: the industries we serve, the
               recognition our work has earned, and detailed case studies for
               your sector — available on request through our contact form.
@@ -111,13 +115,14 @@ export default function CaseStudies() {
               view of where your reputation stands today.
             </p>
             <div className="relative mt-9 flex flex-wrap items-center justify-center gap-4">
-              <button
-                onClick={() => smoothScrollTo('#contact', { duration: 1.4, offset: -80 })}
+              <a
+                href="#contact"
+                onClick={(e) => scrollOnClick(e, '#contact')}
                 className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-[0.9375rem] font-medium text-ink transition-colors duration-300 hover:bg-rose-tint"
               >
-                Request a conversation
+                Start a conversation
                 <ArrowRight className="h-4 w-4" />
-              </button>
+              </a>
               <button
                 onClick={() => {
                   window.dispatchEvent(new CustomEvent('request-case-studies'));

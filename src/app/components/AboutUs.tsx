@@ -7,30 +7,30 @@ import TextReveal from './ui/TextReveal';
 import ImageReveal from './ui/ImageReveal';
 import Parallax from './ui/Parallax';
 import { TriangleBlob } from './ui/Decor';
-import { smoothScrollTo } from '../../lib/smoothScroll';
+import { scrollOnClick } from '../../lib/smoothScroll';
 
 const principles = [
   {
     numeral: 'I',
+    title: 'Our Philosophy',
+    body: 'We believe communication can change the world and the way it responds to brands, reputations, and ideas. Every engagement begins from that conviction.',
+  },
+  {
+    numeral: 'II',
     title: 'Our Mission',
     body: 'To help brands find their authentic voice, tell compelling stories, and build meaningful connections with their stakeholders through strategic communication.',
   },
   {
-    numeral: 'II',
+    numeral: 'III',
     title: 'Our Vision',
     body: "To be India's most trusted communication partner, recognised for delivering impactful narratives that drive business success and build lasting reputations.",
-  },
-  {
-    numeral: 'III',
-    title: 'Our Philosophy',
-    body: 'We believe communication can change the world and the way it responds to brands, reputations, and ideas. Every engagement begins from that conviction.',
   },
 ];
 
 const differentiators = [
   {
     title: 'Client-centric counsel',
-    body: 'Strategies tailored to your business goals, brand values, and the audiences that matter to you never off-the-shelf programmes.',
+    body: 'Strategies tailored to your business goals, brand values, and the audiences that matter to you — never off-the-shelf programmes.',
   },
   {
     title: '360-degree capability',
@@ -86,7 +86,7 @@ const AboutUs: React.FC = () => {
                 <span className="float-left mr-3 mt-1 font-display text-6xl leading-[0.8] text-teal-brand">
                   A
                 </span>
-                t Konnections IMAG, we don&apos;t just run campaigns we craft the
+                t Konnections IMAG, we don&apos;t just run campaigns — we craft the
                 narratives that turn brands into movements. As a public relations
                 and image management consultancy, we build, protect, and enhance
                 reputations for organisations across India&apos;s most demanding
@@ -96,15 +96,16 @@ const AboutUs: React.FC = () => {
                 Our counsel sits at the intersection of strategy and story: what a
                 brand should say, to whom, when, and why. From boardroom
                 positioning to public sentiment, we help leadership teams shape
-                how the world sees them deliberately, and for the long term.
+                how the world sees them — deliberately, and for the long term.
               </p>
             </div>
-            <button
-              onClick={() => smoothScrollTo('#services', { duration: 1.2, offset: -80 })}
+            <a
+              href="#services"
+              onClick={(e) => scrollOnClick(e, '#services')}
               className="link-quiet mt-8 text-[0.9375rem]"
             >
-              See how we work →
-            </button>
+              Explore our practice →
+            </a>
           </Reveal>
         </div>
 

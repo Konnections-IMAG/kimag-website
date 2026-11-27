@@ -3,26 +3,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ArrowUpRight } from 'lucide-react';
-import { smoothScrollTo } from '../../lib/smoothScroll';
-
-const services = [
-  { name: 'Public Relations & Reputation', href: '/services/public-relations' },
-  { name: 'Crisis Management', href: '/services/crisis-management' },
-  { name: 'Financial Communications', href: '/services/financial-communications' },
-  { name: 'Digital Media & Social', href: '/services/digital-media' },
-  { name: 'Corporate Communications', href: '/services/corporate-communications' },
-  { name: 'Specialized Services', href: '/services/specialized-services' },
-];
-
-const sectionLinks = [
-  { name: 'About', hash: '#about' },
-  { name: 'Services', hash: '#services', dropdown: true },
-  { name: 'Impact', hash: '#impact' },
-  { name: 'Awards', hash: '#awards' },
-];
+import { scrollOnClick } from '../../lib/smoothScroll';
+import { SECTION_LINKS, SERVICE_LINKS as services } from '../lib/site';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -31,7 +16,6 @@ const Navbar: React.FC = () => {
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const servicesRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const router = useRouter();
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 12);
@@ -73,13 +57,15 @@ const Navbar: React.FC = () => {
     };
   }, []);
 
-  const goToSection = (hash: string) => {
+  // Links point at /#section so they work from any page, open in a new tab and
+  // can be crawled. On the homepage a plain click smooth-scrolls instead.
+  const goToSection = (event: React.MouseEvent, hash: string) => {
     setMenuOpen(false);
     setServicesOpen(false);
     if (pathname === '/') {
-      smoothScrollTo(hash, { duration: 1.2, offset: -88 });
-    } else {
-      router.push(`/${hash}`);
+      // Unlock scrolling now; the menu's effect cleanup runs too late.
+      document.body.style.overflow = '';
+      scrollOnClick(event, hash, -88);
     }
   };
 
@@ -107,8 +93,8 @@ const Navbar: React.FC = () => {
 
         {/* Desktop navigation */}
         <div className="hidden items-center gap-1 lg:flex">
-          {sectionLinks.map((link) =>
-            link.dropdown ? (
+          {SECTION_LINKS.map((link) =>
+            link.hash === '#services' ? (
               <div key={link.name} ref={servicesRef} className="relative">
                 <button
                   onClick={() => setServicesOpen((v) => !v)}
@@ -144,30 +130,36 @@ const Navbar: React.FC = () => {
                         </Link>
                       ))}
                       <div className="mt-1 border-t border-line px-4 py-3">
-                        <button
-                          onClick={() => goToSection('#services')}
+                        <Link
+                          href="/#services"
+                          onClick={(e) => goToSection(e, '#services')}
                           className="link-quiet text-sm"
                         >
                           View all services
-                        </button>
+                        </Link>
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
               </div>
             ) : (
-              <button
+              <Link
                 key={link.name}
-                onClick={() => goToSection(link.hash)}
+                href={`/${link.hash}`}
+                onClick={(e) => goToSection(e, link.hash)}
                 className="rounded-full px-4 py-2 text-[0.9375rem] font-medium text-ink-soft transition-colors hover:bg-mist hover:text-ink"
               >
                 {link.name}
-              </button>
+              </Link>
             )
           )}
-          <button onClick={() => goToSection('#contact')} className="btn-primary ml-4 !py-2.5">
+          <Link
+            href="/#contact"
+            onClick={(e) => goToSection(e, '#contact')}
+            className="btn-primary ml-4 !py-2.5"
+          >
             Start a conversation
-          </button>
+          </Link>
         </div>
 
         {/* Mobile toggle */}
@@ -208,12 +200,13 @@ const Navbar: React.FC = () => {
             className="overflow-hidden border-t border-line bg-white lg:hidden"
           >
             <div className="max-h-[calc(100dvh-72px)] overflow-y-auto px-5 pb-8 pt-4 sm:px-8">
-              <button
-                onClick={() => goToSection('#about')}
+              <Link
+                href="/#about"
+                onClick={(e) => goToSection(e, '#about')}
                 className="block w-full border-b border-line py-4 text-left font-display text-xl text-ink"
               >
                 About
-              </button>
+              </Link>
               <div className="border-b border-line">
                 <button
                   onClick={() => setMobileServicesOpen((v) => !v)}
@@ -252,24 +245,25 @@ const Navbar: React.FC = () => {
                   )}
                 </AnimatePresence>
               </div>
-              <button
-                onClick={() => goToSection('#impact')}
-                className="block w-full border-b border-line py-4 text-left font-display text-xl text-ink"
-              >
-                Impact
-              </button>
-              <button
-                onClick={() => goToSection('#awards')}
-                className="block w-full border-b border-line py-4 text-left font-display text-xl text-ink"
-              >
-                Awards
-              </button>
-              <button
-                onClick={() => goToSection('#contact')}
+              {SECTION_LINKS.filter((l) => l.hash === '#impact' || l.hash === '#awards').map(
+                (link) => (
+                  <Link
+                    key={link.hash}
+                    href={`/${link.hash}`}
+                    onClick={(e) => goToSection(e, link.hash)}
+                    className="block w-full border-b border-line py-4 text-left font-display text-xl text-ink"
+                  >
+                    {link.name}
+                  </Link>
+                )
+              )}
+              <Link
+                href="/#contact"
+                onClick={(e) => goToSection(e, '#contact')}
                 className="btn-primary mt-6 w-full"
               >
                 Start a conversation
-              </button>
+              </Link>
             </div>
           </motion.div>
         )}

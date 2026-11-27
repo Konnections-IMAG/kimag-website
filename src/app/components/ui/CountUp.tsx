@@ -12,7 +12,10 @@ type CountUpProps = {
   suffixClassName?: string;
 };
 
-/** Counts from zero to `value` the first time it scrolls into view. */
+/**
+ * Counts up to `value` the first time it scrolls into view. The server HTML
+ * (and the no-JS, link-preview and reduced-motion cases) shows the final value.
+ */
 export default function CountUp({
   value,
   suffix = '',
@@ -22,11 +25,10 @@ export default function CountUp({
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: '-40px' });
   const reduce = useReducedMotion();
-  const [display, setDisplay] = useState(0);
+  const [display, setDisplay] = useState(value);
 
   useEffect(() => {
-    if (!inView) return;
-    if (reduce) {
+    if (!inView || reduce) {
       setDisplay(value);
       return;
     }

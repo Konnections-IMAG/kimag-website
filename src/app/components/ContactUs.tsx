@@ -2,66 +2,53 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   Mail,
   Phone,
   MapPin,
   Clock,
-  Plus,
+  Siren,
   ArrowRight,
   CheckCircle,
   AlertCircle,
 } from 'lucide-react';
 import Reveal from './ui/Reveal';
+import FaqList from './FaqList';
+import TurnstileWidget, { TURNSTILE_SITE_KEY } from './TurnstileWidget';
+import { faqs } from './text/faqs';
+import { ADDRESS_LINE, EMAIL, OFFICE_HOURS, PHONE_DISPLAY, PHONE_HREF } from '../lib/site';
 import { TriangleBlob } from './ui/Decor';
 
 const channels = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'info@konnectionsimag.com',
-    href: 'mailto:info@konnectionsimag.com',
+    value: EMAIL,
+    href: `mailto:${EMAIL}`,
   },
   {
     icon: Phone,
     label: 'Phone',
-    value: '+91 70329 39360',
-    href: 'tel:+917032939360',
+    value: PHONE_DISPLAY,
+    href: PHONE_HREF,
+  },
+  {
+    icon: Siren,
+    label: 'Crisis line (24/7)',
+    value: PHONE_DISPLAY,
+    href: PHONE_HREF,
   },
   {
     icon: MapPin,
     label: 'Office',
-    value:
-      '6-3-596/102F, 2nd Floor, Navin Nagar, Banjara Hills, Hyderabad, Telangana — 500004',
+    value: ADDRESS_LINE,
   },
   {
     icon: Clock,
-    label: 'Hours',
-    value: 'Mon–Fri, 9am–6pm · Sat, 9am–4pm',
-  },
-];
-
-const faqs = [
-  {
-    question: 'What services does Konnections IMAG offer?',
-    answer:
-      'We offer a comprehensive range of PR and communication services including public relations, crisis management, corporate communications, digital media, financial communications, and specialized consulting tailored to your industry.',
-  },
-  {
-    question: 'How quickly can you respond to a PR crisis?',
-    answer:
-      'Our crisis team is available 24/7 and responds immediately to urgent situations. An established protocol lets us mobilise resources and implement strategic communication plans within hours of being engaged.',
-  },
-  {
-    question: 'Which industries do you specialise in?',
-    answer:
-      'We work across diverse sectors, with particular depth in technology, healthcare, finance, consumer goods, education, and non-profit organisations. Over thirty verticals in all.',
-  },
-  {
-    question: 'How do you measure the success of PR campaigns?',
-    answer:
-      'Through a blend of quantitative and qualitative measures: media coverage and sentiment analysis, engagement, message penetration, and business impact indicators reported against goals we agree with you up front.',
+    label: 'Office hours',
+    value: OFFICE_HOURS,
   },
 ];
 
@@ -72,7 +59,11 @@ const ContactUs: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [wantsCaseStudies, setWantsCaseStudies] = useState(false);
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
-  const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [errorMessage, setErrorMessage] = useState('');
+  // Honeypot: hidden from people, but naive bots fill it in.
+  const [website, setWebsite] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileAttempt, setTurnstileAttempt] = useState(0);
 
   useEffect(() => {
     const handleRequest = () => setWantsCaseStudies(true);
@@ -94,7 +85,12 @@ const ContactUs: React.FC = () => {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, requestCaseStudies: wantsCaseStudies }),
+        body: JSON.stringify({
+          ...formData,
+          requestCaseStudies: wantsCaseStudies,
+          website,
+          turnstileToken,
+        }),
       });
       if (response.ok) {
         setFormStatus('success');
@@ -102,10 +98,16 @@ const ContactUs: React.FC = () => {
         setWantsCaseStudies(false);
         setTimeout(() => setFormStatus('idle'), 6000);
       } else {
+        const data = await response.json().catch(() => ({}));
+        setErrorMessage(typeof data.message === 'string' ? data.message : '');
         setFormStatus('error');
       }
     } catch {
+      setErrorMessage('');
       setFormStatus('error');
+    } finally {
+      // Turnstile tokens are single use, so ask for a fresh one.
+      setTurnstileAttempt((n) => n + 1);
     }
   };
 
@@ -134,7 +136,7 @@ const ContactUs: React.FC = () => {
               </h2>
               <p className="mt-6 text-lg leading-relaxed text-ink-soft">
                 Whether you&apos;re building a brand, protecting one, or rethinking
-                how your organisation communicates. We&apos;d like to hear the
+                how your organisation communicates — we&apos;d like to hear the
                 story first.
               </p>
             </Reveal>
@@ -196,6 +198,7 @@ const ContactUs: React.FC = () => {
                   </label>
                   <input
                     id="contact-name"
+                    maxLength={100}
                     name="name"
                     type="text"
                     required
@@ -212,6 +215,7 @@ const ContactUs: React.FC = () => {
                   </label>
                   <input
                     id="contact-email"
+                    maxLength={254}
                     name="email"
                     type="email"
                     required
@@ -230,6 +234,7 @@ const ContactUs: React.FC = () => {
                 </label>
                 <input
                   id="contact-subject"
+                  maxLength={150}
                   name="subject"
                   type="text"
                   required
@@ -246,6 +251,7 @@ const ContactUs: React.FC = () => {
                 </label>
                 <textarea
                   id="contact-message"
+                  maxLength={5000}
                   name="message"
                   required
                   rows={5}
@@ -264,12 +270,37 @@ const ContactUs: React.FC = () => {
                   onChange={(e) => setWantsCaseStudies(e.target.checked)}
                   className="mt-1 h-4 w-4 shrink-0 rounded border-line text-teal-brand focus:ring-teal-brand/30"
                 />
-                Send me relevant case studies and examples for my sector
+                Request case studies and examples for my sector
               </label>
+
+              <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
+                <label htmlFor="contact-website">Website</label>
+                <input
+                  id="contact-website"
+                  name="website"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={website}
+                  onChange={(e) => setWebsite(e.target.value)}
+                />
+              </div>
+
+              <TurnstileWidget resetSignal={turnstileAttempt} onToken={setTurnstileToken} />
+
+              <p className="mt-5 text-sm text-ink-soft">
+                We use these details only to respond to your enquiry. Read our{' '}
+                <Link href="/privacy" className="font-medium text-teal-deep underline">
+                  privacy notice
+                </Link>
+                .
+              </p>
 
               <button
                 type="submit"
-                disabled={formStatus === 'submitting'}
+                disabled={
+                  formStatus === 'submitting' || (!!TURNSTILE_SITE_KEY && !turnstileToken)
+                }
                 className="btn-primary mt-8 w-full disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
               >
                 {formStatus === 'submitting' ? 'Sending…' : 'Send message'}
@@ -298,7 +329,7 @@ const ContactUs: React.FC = () => {
                     className="mt-5 flex items-center gap-2 text-sm font-medium text-rose-deep"
                   >
                     <AlertCircle className="h-4 w-4" />
-                    Something went wrong. Please try again, or write to us directly.
+                    {errorMessage || 'Something went wrong. Please try again, or write to us directly.'}
                   </motion.p>
                 )}
               </AnimatePresence>
@@ -315,41 +346,7 @@ const ContactUs: React.FC = () => {
             </h3>
           </Reveal>
           <div className="lg:col-span-7 lg:col-start-6">
-            {faqs.map((faq, index) => (
-              <Reveal key={faq.question} delay={index * 0.06}>
-                <div className="border-b border-line first:border-t">
-                  <button
-                    onClick={() => setActiveFaq(activeFaq === index ? null : index)}
-                    aria-expanded={activeFaq === index}
-                    className="flex w-full items-center justify-between gap-6 py-6 text-left"
-                  >
-                    <span className="font-display text-lg text-ink sm:text-xl">
-                      {faq.question}
-                    </span>
-                    <Plus
-                      className={`h-5 w-5 shrink-0 text-teal-deep transition-transform duration-300 ${
-                        activeFaq === index ? 'rotate-45' : ''
-                      }`}
-                    />
-                  </button>
-                  <AnimatePresence initial={false}>
-                    {activeFaq === index && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                        className="overflow-hidden"
-                      >
-                        <p className="max-w-xl pb-6 leading-relaxed text-ink-soft">
-                          {faq.answer}
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </Reveal>
-            ))}
+            <FaqList faqs={faqs} name="contact-faq" />
           </div>
         </div>
       </div>

@@ -8,6 +8,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Navbar from './Navbar';
 import { Footer } from './Footer';
 import Reveal from './ui/Reveal';
+import FaqList from './FaqList';
 import { TriangleBlob } from './ui/Decor';
 import type { ServicePageContent } from './text/servicePages';
 
@@ -69,11 +70,11 @@ const ServicePage: React.FC<{ content: ServicePageContent }> = ({ content }) => 
                 </motion.p>
                 <motion.div {...enter(0.4)} className="mt-10 flex flex-wrap gap-4">
                   <Link href="/#contact" className="btn-primary">
-                    Discuss your brief
+                    Start a conversation
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                   <Link href="/#services" className="btn-outline">
-                    Explore other practices
+                    Explore our practice
                   </Link>
                 </motion.div>
               </div>
@@ -90,11 +91,34 @@ const ServicePage: React.FC<{ content: ServicePageContent }> = ({ content }) => 
                     width={720}
                     height={840}
                     priority
+                    fetchPriority="high"
                     className="relative aspect-[5/6] w-full rounded-3xl border border-line object-cover"
                   />
                 </div>
               </motion.div>
             </div>
+          </div>
+        </section>
+
+        {/* Overview */}
+        <section aria-labelledby="overview-heading" className="border-t border-line bg-white">
+          <div className="mx-auto grid max-w-7xl gap-10 px-5 py-24 sm:px-8 lg:grid-cols-12">
+            <Reveal className="lg:col-span-5">
+              <p className="eyebrow">Why it matters</p>
+              <h2
+                id="overview-heading"
+                className="mt-6 font-display text-3xl leading-tight tracking-[-0.01em] text-ink sm:text-4xl"
+              >
+                {content.overview.heading}
+              </h2>
+            </Reveal>
+            <Reveal delay={0.1} className="lg:col-span-6 lg:col-start-7">
+              <div className="space-y-6 leading-relaxed text-ink-soft">
+                {content.overview.paragraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+            </Reveal>
           </div>
         </section>
 
@@ -125,8 +149,7 @@ const ServicePage: React.FC<{ content: ServicePageContent }> = ({ content }) => 
                     <div className="overflow-hidden rounded-2xl border border-line bg-mist">
                       <Image
                         src={cap.image}
-                        alt=""
-                        aria-hidden
+                        alt={cap.imageAlt}
                         width={480}
                         height={360}
                         className="aspect-[4/3] w-full object-cover grayscale-[0.25]"
@@ -173,6 +196,21 @@ const ServicePage: React.FC<{ content: ServicePageContent }> = ({ content }) => 
                 </Reveal>
               ))}
             </ol>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section aria-labelledby="faq-heading" className="bg-white">
+          <div className="mx-auto grid max-w-7xl gap-10 px-5 pb-24 sm:px-8 lg:grid-cols-12">
+            <Reveal className="lg:col-span-4">
+              <p className="eyebrow">Common questions</p>
+              <h2 id="faq-heading" className="mt-6 font-display text-3xl leading-tight text-ink">
+                Before you brief us
+              </h2>
+            </Reveal>
+            <div className="lg:col-span-7 lg:col-start-6">
+              <FaqList faqs={content.faqs} name={`${content.slug}-faq`} />
+            </div>
           </div>
         </section>
 
